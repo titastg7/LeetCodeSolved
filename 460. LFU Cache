@@ -1,0 +1,53 @@
+460. LFU Cache
+C++ Code
+-------------------------------------------
+
+class LFUCache {
+public:
+    unordered_map<int,list<int>> freq;
+    unordered_map<int,list<int>::iterator> pos;
+    unordered_map<int,pair<int,int>> keyValue;
+    int size;
+    int leastFreq;
+    LFUCache(int capacity) {
+        size = capacity;
+        leastFreq=0;
+    }
+    
+    int get(int key) {
+        if(keyValue.find(key)==keyValue.end())
+            return -1;
+        int val = keyValue[key].first;
+        freq[keyValue[key].second].erase(pos[key]);
+        freq[keyValue[key].second+1].push_front(key);
+        pos[key] = freq[keyValue[key].second+1].begin();
+        keyValue[key].second = keyValue[key].second+1;
+        if(freq[leastFreq].size()==0)
+            leastFreq++;
+        return val;
+    }
+    
+    void put(int key, int value) {
+        if(keyValue.find(key)!=keyValue.end())
+        {
+            freq[keyValue[key].second].erase(pos[key]);
+            freq[keyValue[key].second+1].push_front(key);
+            pos[key] = freq[keyValue[key].second+1].begin();
+            keyValue[key] = {value,keyValue[key].second+1};
+            if(freq[leastFreq].size()==0)
+                leastFreq++;
+            return;
+        }
+        if(keyValue.size()==size)
+        {
+            int evictKey = freq[leastFreq].back();
+            freq[leastFreq].pop_back();
+            pos.erase(evictKey);
+            keyValue.erase(evictKey);
+        }
+        keyValue[key]={value,1};
+        leastFreq=1;
+        freq[1].push_front(key);
+        pos[key]=freq[1].begin();
+    }
+};
