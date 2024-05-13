@@ -1,0 +1,46 @@
+1372. Longest ZigZag Path in a Binary Tree
+C++ Code
+----------------------------------
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int longestZigZag(TreeNode* root) {
+        int res=0;
+        if(root==NULL)
+            return res;
+        dfs(root->left,true,0,res);
+        dfs(root->right,false,0,res);
+        return res;
+    }
+    void dfs(TreeNode* root, bool isLeft, int length, int &res)
+    {
+        if(root==NULL)
+        {
+            res = max(res,length);
+            return;
+        }
+        
+        if(isLeft)
+        {
+            dfs(root->left,true,0,res);
+            dfs(root->right,false,length+1,res);
+        }
+        else
+        {
+            dfs(root->right,false,0,res);
+            dfs(root->left,true,length+1,res);
+        }
+        return;   
+    }
+};
