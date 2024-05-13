@@ -1,0 +1,21 @@
+1431. Kids With the Greatest Number of Candies
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    vector<bool> kidsWithCandies(vector<int>& candies, int extraCandies) {
+        int i,n=candies.size(),maxCandy=0;
+        vector<bool> result(n,false);
+        for(i=0;i<n;i++)
+        {
+            maxCandy = max(maxCandy,candies[i]);
+        }
+        for(i=0;i<n;i++)
+        {
+            if((candies[i]+extraCandies)>=maxCandy)
+                result[i]=true;
+        }
+        return result;
+    }
+};
