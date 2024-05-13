@@ -1,0 +1,33 @@
+345. Reverse Vowels of a String
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool check(char ch)
+    {
+        char lCh=tolower(ch);
+        if(lCh=='a'|| lCh=='e' || lCh=='i'|| lCh=='o'|| lCh=='u')
+            return 1;
+        return 0;
+    }
+    string reverseVowels(string s) {
+        int n=s.length(),i=0,j;
+        j=n-1;
+        while(i<j)
+        {
+            if(!check(s[i]))
+                i++;
+            else if(!check(s[j]))
+                j--;
+            else
+            {
+                char temp = s[i];
+                s[i]=s[j];
+                s[j]=temp;
+                i++; j--;
+            }
+        }
+        return s;
+    }
+};
