@@ -1,4 +1,6 @@
 1768. Merge Strings Alternately
+C++ Code
+----------------------------------
 
 class Solution {
 public:
