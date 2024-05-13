@@ -1,0 +1,32 @@
+22. Generate Parentheses
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    void findAll(int left, int right, string &s, vector<string> *res)
+    {
+        if(left<0 || right<0 || right<left)
+            return;
+        if(left==0 && right==0)
+        {
+            res->push_back(s);
+            return;
+        }
+
+        s.push_back('(');
+        findAll(left-1,right,s,res);
+        s.pop_back();
+        s.push_back(')');
+        findAll(left,right-1,s,res);
+        s.pop_back();
+        return;
+        
+    }
+    vector<string> generateParenthesis(int n) {
+        vector<string> res;
+        string temp;
+        findAll(n,n,temp,&res);
+        return res;
+    }
+};
