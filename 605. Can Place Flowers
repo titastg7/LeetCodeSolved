@@ -1,0 +1,24 @@
+605. Can Place Flowers
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool canPlaceFlowers(vector<int>& flowerbed, int n) {
+        int m=flowerbed.size(),i=0;
+        while(i<m)
+        {
+            //cout<<i<<" ";
+            if(flowerbed[i]==1)
+                i =i+2;
+            else if(i<m-1 && flowerbed[i+1]==1)
+                i +=3;
+            else
+            {
+                n--;
+                i=i+2;
+            }
+        }
+        return n<=0; 
+    }
+};
