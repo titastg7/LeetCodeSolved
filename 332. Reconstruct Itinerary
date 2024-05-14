@@ -1,0 +1,28 @@
+332. Reconstruct Itinerary
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    void dfs(string airport,unordered_map<string,priority_queue<string, vector<string>, greater<string>>> &graph, vector<string> *res)
+    {
+        while(!graph[airport].empty())
+        {
+            string nextStop = graph[airport].top();
+            graph[airport].pop();
+            dfs(nextStop,graph,res);
+        }
+        res->push_back(airport);
+    }
+    vector<string> findItinerary(vector<vector<string>>& tickets) {
+        unordered_map<string,priority_queue<string, vector<string>, greater<string>> > graph;
+        int i,n=tickets.size();
+        for(i=0;i<n;i++)
+            graph[tickets[i][0]].push(tickets[i][1]);
+        vector<string> res;
+        dfs("JFK", graph, &res);
+        reverse(res.begin(),res.end());
+        return res;
+    }
+};
