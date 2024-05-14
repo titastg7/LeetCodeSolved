@@ -1,0 +1,28 @@
+32. Longest Valid Parentheses
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+        int i,n=s.length(),res=0;
+        stack<int> tracker;
+        tracker.push(-1);
+        for(i=0;i<n;i++)
+        {
+            if(s[i]=='(')
+                tracker.push(i);
+            else
+            {
+                if(tracker.top()!=-1 && s[tracker.top()]=='(')
+                {
+                    tracker.pop();
+                    res = max(res,(i-tracker.top()));
+                }
+                else
+                    tracker.push(i);
+            }
+        }
+        return res;
+    }
+};
