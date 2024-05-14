@@ -1,0 +1,20 @@
+169. Majority Element
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int n=nums.size(),i;
+        stack<int> pda;
+        for(i=0;i<n;i++)
+        {
+            if(pda.empty() || pda.top()==nums[i])
+                pda.push(nums[i]);
+            else
+                pda.pop();
+        }
+        return pda.top();
+    }
+};
