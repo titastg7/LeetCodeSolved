@@ -1,0 +1,20 @@
+238. Product of Array Except Self
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int i,n=nums.size(),prod=1;
+        vector<int> res(n,1);
+        for(i=1;i<n;i++)
+            res[i] = res[i-1]*nums[i-1];
+        for(i=n-1;i>=0;i--)
+        {
+            res[i] *= prod;
+            prod *=nums[i];
+        }
+        return res;
+    }
+};
