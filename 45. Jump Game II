@@ -1,0 +1,24 @@
+45. Jump Game II
+
+C++ Code
+----------------------------------
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int i,n=nums.size(),jumps=0;
+        int reachable=nums[0], stepCount=nums[0];
+        if (n <= 1)
+            return 0;
+        for(i=1;i<n-1;i++)
+        {
+            reachable = max(reachable,nums[i]+i);
+            stepCount--;
+            if(stepCount==0)
+            {
+                stepCount = reachable-i;
+                jumps++;
+            }
+        }
+        return jumps+1;
+    }
+};
