@@ -1,0 +1,34 @@
+41. First Missing Positive
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int firstMissingPositive(vector<int>& nums) {
+        int i=0, j=0, n=nums.size(),temp;
+        while(j<n)
+        {
+            if(nums[j]>0)
+            {
+                nums[i]=nums[j];
+                i++;
+            }
+            j++;
+        }
+        for(j=0;j<i;j++)
+        {
+            if(abs(nums[j])<=i && nums[abs(nums[j])-1]>0 )
+            {
+                nums[abs(nums[j])-1] *= -1;
+            }
+        }
+        for(j=0;j<i;j++)
+        {
+            if(nums[j]>=0)
+                return j+1;
+        }
+        return i+1;
+    }
+};
