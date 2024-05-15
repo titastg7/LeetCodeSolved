@@ -1,0 +1,18 @@
+55. Jump Game
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int n=nums.size(), reach=n-1,i=n-2;
+        while(i>=0)
+        {
+            if(i+nums[i]>=reach)
+                reach=i;
+            i--;
+        }
+        return reach==0;
+    }
+};
