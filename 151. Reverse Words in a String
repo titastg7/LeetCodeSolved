@@ -1,0 +1,38 @@
+151. Reverse Words in a String
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    string reverseWords(string s) {
+        int n=s.length(),i;
+        string res, temp;
+        reverse(s.begin(),s.end());
+        for(i=0;i<n;i++)
+        {
+            if(s[i]!=' ')
+            {
+                temp +=s[i];
+            }
+            else
+            {
+                if(temp!="")
+                {
+                    reverse(temp.begin(),temp.end());
+                    res += temp;
+                    res +=" ";
+                }
+                temp="";
+            }
+        }
+        if(temp!="")
+        {
+            reverse(temp.begin(),temp.end());
+            res += temp;
+        }
+        if(res[res.length()-1]==' ')
+            res.pop_back();
+        return res;
+    }
+};
