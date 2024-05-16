@@ -1,0 +1,27 @@
+58. Length of Last Word
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int lengthOfLastWord(string s) {
+        int i,n=s.length(), res=0;
+        string temp;
+        for(i=0;i<n;i++)
+        {
+            if(s[i]==' ')
+            {
+                if(temp!="")
+                    res = temp.length();
+                temp="";
+            }
+            else
+                temp +=s[i];
+        }
+        if(temp!="")
+            res = temp.length();
+        return res;
+    }
+};
