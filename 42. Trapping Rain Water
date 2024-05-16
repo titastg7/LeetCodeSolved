@@ -1,0 +1,33 @@
+42. Trapping Rain Water
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int n=height.size(),i,res=0,maxVal;
+        vector<int> left(n,0);
+        vector<int> right(n,0);
+        
+        maxVal=height[0];
+        for(i=1;i<n;i++)
+        {
+            left[i] = maxVal;
+            maxVal=max(maxVal,height[i]);
+        }
+        
+        maxVal=height[n-1];
+        for(i=n-2;i>=0;i--)
+        {
+            right[i]= maxVal;
+            maxVal = max(maxVal,height[i]);
+        }
+        
+        for(i=0;i<n;i++)
+        {
+            res += max(0,min(left[i],right[i])- height[i]);
+        }
+        return res;
+    }
+};
