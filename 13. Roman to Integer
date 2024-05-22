@@ -1,0 +1,30 @@
+13. Roman to Integer
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int romanToInt(string s) {
+        unordered_map<char,int> integers;
+        
+        integers['I'] = 1;
+        integers['V'] = 5;
+        integers['X'] = 10;
+        integers['L'] = 50;
+        integers['C'] = 100;
+        integers['D'] = 500;
+        integers['M'] = 1000;
+        int i,res=0, n=s.length();
+        
+        for(i=0;i<n-1;i++)
+        {
+            if(integers[s[i]]< integers[s[i+1]])
+                res -=integers[s[i]];
+            else
+                res +=integers[s[i]];
+        }
+        res +=integers[s[i]];
+        return res;
+    }
+};
