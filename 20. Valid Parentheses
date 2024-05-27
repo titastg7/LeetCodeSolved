@@ -1,0 +1,31 @@
+20. Valid Parentheses
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool isValid(string s) {
+        int n=s.length(),i;
+        stack<int> matcher;
+        for(i=0;i<n;i++)
+        {
+            if(s[i]=='('|| s[i]=='{' || s[i]=='[')
+                matcher.push(i);
+            else
+            {
+                if(matcher.empty())
+                    return 0;
+                if(s[matcher.top()]=='(' && s[i]!=')')
+                    return 0;
+                if(s[matcher.top()]=='{' && s[i]!='}')
+                    return 0;
+                if(s[matcher.top()]=='[' && s[i]!=']')
+                    return 0;
+                matcher.pop();
+            }
+        }
+        return matcher.empty();
+    }
+};
