@@ -1,0 +1,44 @@
+56. Merge Intervals
+
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef pair<int,int> pairs;
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        int n=intervals.size(),i;
+        vector<vector<int>> res;
+        vector<pairs> input;
+        if(n==0)
+            return res;
+        for(i=0;i<n;i++)
+        {
+            input.push_back({intervals[i][0],intervals[i][1]});
+        }
+        sort(input.begin(),input.end());
+        vector<int> interval(2);
+        int start=input[0].first, end=input[0].second;
+        for(i=1;i<n;i++)
+        {
+            if(input[i].first>end)
+            {
+                interval[0]=start;
+                interval[1]=end;
+                res.push_back(interval);
+                start = input[i].first;
+                end = input[i].second;
+            }
+            else
+            {
+                end = max(end,input[i].second);
+            }
+        }
+        interval[0]=start;
+        interval[1]=end;
+        res.push_back(interval);
+        return res;
+    }
+};
