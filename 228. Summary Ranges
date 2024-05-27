@@ -1,0 +1,35 @@
+228. Summary Ranges
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    vector<string> summaryRanges(vector<int>& nums) {
+        int i,n=nums.size();
+        vector<string> res;
+        if(n==0)
+            return res;
+        int start=0, end=1;
+        string path;
+        while(end<n)
+        {
+            if(nums[end] != nums[end-1]+1)
+            {
+                path = to_string(nums[start]);
+                if(start!=end-1)
+                    path += "->" + to_string(nums[end-1]);
+                res.push_back(path);
+                start=end;
+            }
+            end++;
+        }
+        
+        path = to_string(nums[start]);
+        if(start!=end-1)
+            path += "->" + to_string(nums[end-1]);
+        res.push_back(path);
+        return res;
+    }
+};
