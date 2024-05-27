@@ -1,0 +1,37 @@
+543. Diameter of Binary Tree
+
+C++ Code
+----------------------------------
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int res;
+    int find(TreeNode* root)
+    {
+        if(root==NULL)
+            return 0;
+        int ll=find(root->left);
+        int rr=find(root->right);
+        int diff = 1+max(ll,rr);
+        res = max(res, 1+ll+rr);
+        return diff;
+    }
+    int diameterOfBinaryTree(TreeNode* root) {
+        if(root==NULL)
+            return 0;
+        res=0;
+        find(root);
+        return res-1;
+    }
+};
