@@ -1,0 +1,75 @@
+208. Implement Trie (Prefix Tree)
+
+C++ Code
+----------------------------------
+
+class TrieNode
+    {
+        public:
+        unordered_map<char,TrieNode*> children;
+        bool isEnd;
+        TrieNode()
+        {
+            isEnd=0;
+        }
+    };
+class Trie 
+{
+    TrieNode* root;
+public:
+    
+    Trie() 
+    {
+        root= new TrieNode();    
+    }
+    
+    void insert(string word) {
+        int i,n=word.length();
+        TrieNode* temp=root;
+        for(i=0;i<n;i++)
+        {
+            if(temp->children.find(word[i])==temp->children.end())
+            {
+                TrieNode* newNode = new TrieNode();
+                temp->children[word[i]] = newNode;
+            }
+            temp=temp->children[word[i]];
+        }
+        temp->isEnd=1;
+    }
+    
+    bool search(string word) 
+    {
+        int i,n=word.length();
+        TrieNode* temp=root;
+        for(i=0;i<n;i++)
+        {
+            if(temp->children.find(word[i])==temp->children.end())
+                return false;
+            
+            temp=temp->children[word[i]];
+        }
+        return temp->isEnd;
+    }
+    
+    bool startsWith(string prefix) 
+    {
+        int i,n=prefix.length();
+        TrieNode* temp=root;
+        for(i=0;i<n;i++)
+        {
+            if(temp->children.find(prefix[i])==temp->children.end())
+                return false;
+            temp=temp->children[prefix[i]];
+        }
+        return 1;
+    }
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie* obj = new Trie();
+ * obj->insert(word);
+ * bool param_2 = obj->search(word);
+ * bool param_3 = obj->startsWith(prefix);
+ */
