@@ -1,0 +1,27 @@
+128. Longest Consecutive Sequence
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        int i,n=nums.size(),res=0,count=0;
+        if(n<2)
+            return n;
+        unordered_set<int> listNums;
+        for(i=0;i<n;i++)
+            listNums.insert(nums[i]);
+        for(i=0;i<n;i++)
+        {
+            if(listNums.find(nums[i] - 1) == listNums.end())
+            {
+                count=1;
+                while(listNums.find(nums[i]+count)!=listNums.end())
+                    count++;
+                res = max(res,count);
+            }
+        }
+        return res;
+    }
+};
