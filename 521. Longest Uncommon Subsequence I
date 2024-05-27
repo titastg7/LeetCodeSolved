@@ -1,0 +1,15 @@
+521. Longest Uncommon Subsequence I
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int findLUSlength(string a, string b) {
+        if(a==b)
+            return -1;
+        int l1=a.length(),l2=b.length();
+        return max(l1,l2);
+    }
+};
