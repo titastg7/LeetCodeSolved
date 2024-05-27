@@ -1,0 +1,23 @@
+551. Student Attendance Record I
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool checkRecord(string s) {
+        int i,n=s.length(), absentCount=0, lateDays=0;
+        for(i=0;i<n;i++)
+        {
+            if(s[i]=='A')
+                absentCount++;
+            if(s[i]=='L')
+                lateDays++;
+            else
+                lateDays=0;
+            if(absentCount>1 || lateDays>2)
+                return 0;
+        }
+        return 1;
+    }
+};
