@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int find(string &s, int ind, int n, unordered_set<string> &dict, vector<int>*memo)
+    {
+        if(ind==n)
+            return 1;
+        if((*memo)[ind]!=-1)
+            return (*memo)[ind];
+        int i,flag=0;
+        string temp;
+        for(i=ind;i<n;i++)
+        {
+            temp +=s[i];
+            if(dict.find(temp)!=dict.end())
+                flag = flag || find(s,i+1,n,dict,memo);
+            if(flag)
+                break;
+        }
+        (*memo)[ind]=flag;
+        return (*memo)[ind];
+    }
+    
+    bool wordBreak(string s, vector<string>& wordDict) {
+        int i,n=s.length(), w=wordDict.size();
+        unordered_set<string> dict;
+        for(i=0;i<w;i++)
+            dict.insert(wordDict[i]);
+        vector<int> memo(n,-1);
+        return find(s,0,n,dict, &memo);
+    }
+};
