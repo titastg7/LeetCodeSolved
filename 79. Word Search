@@ -1,0 +1,62 @@
+79. Word Search
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    vector<int> cr = {0,0,1,-1};
+    vector<int> cc = {1,-1,0,0};
+    bool check(int i, int j, int m, int n)
+    {
+        if(i<0||j<0||i>=m||j>=n)
+            return 0;
+        return 1;
+    }
+    
+    bool find(vector<vector<char>>&board,int i,int j,int m,int n,int ind, string &word,vector<vector<bool>>*visited)
+    {
+        if(board[i][j]!=word[ind])
+            return 0;
+        if(ind + 1 == word.length())
+            return 1;
+
+        (*visited)[i][j]=1;
+        int x,y,k,flag=0;
+        for(k=0;k<4;k++)
+        {
+            x = cr[k]+i;
+            y = cc[k]+j;
+            if(check(x,y,m,n) && !(*visited)[x][y])
+            {
+                flag = find(board,x,y,m,n,ind+1,word,visited);
+                if(flag)
+                    break;
+            }
+        }
+        (*visited)[i][j]=0;
+        return flag;
+        
+    }
+    bool exist(vector<vector<char>>& board, string word)
+    {
+        int i,j,m=board.size(),n=board[0].size(), len=word.length(),flag=0;
+        
+        
+        for(i=0;i<m;i++)
+        {
+            for(j=0;j<n;j++)
+            {
+                if(word[0]==board[i][j])
+                {
+                    vector<vector<bool>> visited(m,vector<bool>(n,0));
+                    flag = find(board,i,j,m,n,0,word,&visited);
+                    if(flag)
+                        return 1;
+                }
+            }
+        }
+        return 0;
+    }
+};
