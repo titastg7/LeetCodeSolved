@@ -1,0 +1,39 @@
+17. Letter Combinations of a Phone Number
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    unordered_map<char,string> letters ={{'2',"abc"}, {'3',"def"},
+                                       {'4',"ghi"},{'5',"jkl"},{'6',"mno"},
+                                       {'7',"pqrs"},{'8',"tuv"},{'9',"wxyz"}};
+    
+    void findAllCombinations(string &digits,int ind,int n ,string word,vector<string>*res)
+    {
+        if(ind==n)
+        {
+            res->push_back(word);
+            return;
+        }
+        string letterOfDigit = letters[digits[ind]];
+        for(char ch :letterOfDigit )
+        {
+            word.push_back(ch);
+            findAllCombinations(digits,ind+1,n,word,res);
+            word.pop_back();
+        }
+        return;
+    }
+    vector<string> letterCombinations(string digits) 
+    {
+        vector<string> res;
+        int n=digits.size();
+        if(n==0)
+            return res;
+        string word;
+        findAllCombinations(digits,0,n,word,&res);
+        return res;
+    }
+};
