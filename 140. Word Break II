@@ -1,0 +1,53 @@
+140. Word Break II
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    
+    void find(string &s, int ind, int n, unordered_set<string> &dict, vector<string>words,vector<string>*allSentences)
+    {
+        if(ind==n)
+        {
+            string sentence;
+            for(auto w:words)
+            {
+                sentence += w+" ";
+                
+            }
+            sentence.pop_back();
+            allSentences->push_back(sentence);
+            return;
+        }
+
+        int i;
+        string temp;
+        for(i=ind;i<n;i++)
+        {
+            temp +=s[i];
+            if(dict.find(temp)!=dict.end())
+            {    
+                words.push_back(temp);
+                find(s,i+1,n,dict,words, allSentences);
+                words.pop_back();
+            }
+        }
+        return;
+    }
+    vector<string> wordBreak(string s, vector<string>& wordDict) {
+        int i,n=s.length(), w=wordDict.size();
+        unordered_set<string> dict;
+        vector<string> allSentences;
+        vector<string> words;
+        for(i=0;i<w;i++)
+            dict.insert(wordDict[i]);
+        
+        find(s,0,n,dict, words, &allSentences);
+        return allSentences;
+    }
+    
+
+    
+};
