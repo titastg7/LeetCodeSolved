@@ -1,0 +1,30 @@
+541. Reverse String II
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    void reverseSection(string &s, int ind, int len)
+    {
+        int left=ind, right = min(len,(int)s.length())-1;
+        while(left<right)
+        {
+            swap(s[left],s[right]);
+            left++;
+            right--;
+        }
+        return;
+    }
+    
+    string reverseStr(string s, int k) 
+    {
+        int i,n=s.length();
+        for(i=0;i<n; i +=2*k)
+        {
+            reverseSection(s,i,i+k);
+        }
+        return s;
+    }
+};
