@@ -1,0 +1,54 @@
+542. 01 Matrix
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef pair<int,int> ii;
+    vector<int> cr = {0,0,1,-1};
+    vector<int> cc = {1,-1,0,0};
+    bool check(int i, int j, int m, int n)
+    {
+        if(i<0||j<0||i>=m||j>=n)
+            return 0;
+        return 1;
+    }
+    
+  
+    vector<vector<int>> updateMatrix(vector<vector<int>>& mat) 
+    {
+        int m=mat.size(),n=mat[0].size(),size=1,i,j,x,y,k;
+        vector<vector<int>> res(m,vector<int>(n,INT_MAX/2));
+        queue<ii> levels;
+        for(i=0;i<m;i++)
+        {
+            for(j=0;j<n;j++)
+            {
+                if(mat[i][j]==0)
+                {
+                    levels.push({i,j});
+                    res[i][j]=0;
+                }
+            }
+        }
+        
+        while(!levels.empty())
+        {
+            auto topE = levels.front();
+            levels.pop();
+            for(k=0;k<4;k++)
+            {
+                x = cr[k]+ topE.first;
+                y = cc[k]+ topE.second;
+                if(check(x,y,m,n) && res[topE.first][topE.second]+1<res[x][y])
+                {
+                    res[x][y] = res[topE.first][topE.second]+1;
+                    levels.push({x,y});
+                }
+            }
+        }
+        return res;
+    }
+};
