@@ -1,0 +1,46 @@
+224. Basic Calculator
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int calculate(string s) {
+        int i, n=s.length(),number=0, sign=1, res=0;
+        stack<int> counter;
+        for(i=0;i<n;i++)
+        {
+            char ch=s[i];
+            if(isdigit(s[i]))
+                number = number*10+(s[i]-'0');
+            else if(ch=='-' || ch=='+')
+            {
+                res +=number*sign;
+                if(ch=='-')
+                    sign=-1;
+                else
+                    sign=1;
+                number=0;
+            } else if(ch=='(')
+            {
+                counter.push(res);
+                counter.push(sign);
+                res=0;
+                sign=1;
+            } else if(ch==')')
+            {
+                res +=number*sign;
+                int signvalue = counter.top();
+                counter.pop();
+                int leftval = counter.top();
+                counter.pop();
+                res *=signvalue;
+                res +=leftval;
+                number=0;
+            }
+        }
+        
+        return res+number*sign;
+    }
+};
