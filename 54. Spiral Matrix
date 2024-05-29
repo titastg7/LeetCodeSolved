@@ -1,0 +1,54 @@
+54. Spiral Matrix
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) 
+    {
+        int m=matrix.size(),n=matrix[0].size(),count=0,i=0,j=0,flag=0;
+        vector<int> res(m*n);
+
+        while(count<m*n)
+        {
+            while(j<n-flag && count<m*n)
+            {
+                res[count]=matrix[i][j];
+                j++;
+                count++;
+                
+            }
+            
+            j--;
+            
+            while(++i<m-flag && count<m*n)
+            {
+                res[count]=matrix[i][j];
+                count++;
+            }
+            
+            i--;
+
+            while(--j>=flag && count<m*n)
+            {
+                res[count]=matrix[i][j];
+                count++;
+            }
+            
+            flag++;
+            j++;
+            
+            while(--i>=flag && count<m*n)
+            {
+                res[count]=matrix[i][j];
+                count++;
+            }
+            
+            i++;
+            j++;
+        }
+        return res;
+    }
+};
