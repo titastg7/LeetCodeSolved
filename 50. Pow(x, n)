@@ -1,0 +1,21 @@
+50. Pow(x, n)
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    double calculate(double num, long long power)
+    {
+        if(power == 0)
+            return 1;
+        if(power%2 == 0)
+            return calculate(num*num, power/2);
+        return num * calculate(num*num, (power-1)/2);
+    }
+    double myPow(double x, int n) {
+        if(n>=0)
+            return calculate(x,n);
+        return 1/calculate(x,abs(n));
+    }
+};
