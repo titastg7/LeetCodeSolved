@@ -1,0 +1,29 @@
+526. Beautiful Arrangement
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int permute(vector<int> nums, int ind, int n)
+    {
+        if(ind==n)
+            return 1;
+        int i,res=0;
+        for(i=ind;i<n;i++)
+        {
+            swap(nums[ind], nums[i]);
+            if(nums[ind]% (ind+1)==0 || (ind+1)%nums[ind]==0)
+                res += permute(nums,ind+1,n);
+        }
+        return res;
+    }
+    int countArrangement(int n) {
+        int i;
+        vector<int>nums(n);
+        for(i=1;i<=n;i++)
+            nums[i-1]=i;
+        return permute(nums,0,n);
+    }
+};
