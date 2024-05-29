@@ -1,0 +1,42 @@
+522. Longest Uncommon Subsequence II
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool isSubsequence(string &a, string &b)
+    {
+        int m=a.length()-1,n=b.length()-1;
+
+        while(m>=0 && n>=0)
+        {
+            if(a[m]==b[n])
+                m--;
+            n--;
+        }
+        return m<0;
+    }
+    
+    int findLUSlength(vector<string>& strs) 
+    {
+        int res=-1,i,n=strs.size(),j,flag,curLen=0;
+        for(i=0;i<n;i++)
+        {
+            flag=1;
+            curLen = strs[i].length();
+            for(j=0;j<n;j++)
+            {
+                if(i!=j && isSubsequence(strs[i],strs[j]))
+                {
+                    flag=0;
+                    break;
+                }
+            }
+            if(flag)
+                res = max(res,curLen);
+        }
+        return res;
+    }
+};
