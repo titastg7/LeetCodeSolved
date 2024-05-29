@@ -1,0 +1,30 @@
+552. Student Attendance Record II
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    #define mod 1000000007
+    int find(int n, int absent, int late, vector<vector<vector<int>>> * memo)
+    {
+        if(absent>=2 || late>=3)
+            return 0;
+        if(n==0)
+            return 1;
+        if((*memo)[n][absent][late]!=-1)
+            return (*memo)[n][absent][late];
+        int withAbsent = find(n-1, absent+1, 0,memo) % mod;
+        int withLate = find(n-1,absent,late+1,memo) % mod;
+        int withPresent = find(n-1,absent,0,memo) % mod;
+        (*memo)[n][absent][late] = ((withAbsent+withLate)% mod+withPresent) % mod;
+        return (*memo)[n][absent][late];
+    }
+    
+    int checkRecord(int n) 
+    {
+        vector<vector<vector<int>>> memo(n+1,vector<vector<int>>(2,vector<int>(3,-1)));
+        return find(n,0,0,&memo);
+    }
+};
