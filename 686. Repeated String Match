@@ -1,0 +1,30 @@
+686. Repeated String Match
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+
+
+    int repeatedStringMatch(string a, string b) 
+    {
+        int aLength=a.length(), bLength= b.length(),count=0;
+        string newStr;
+        while(newStr.length()<bLength)
+        {
+            newStr +=a;
+            count++;
+        }
+        
+        if(newStr.find(b)!=string::npos)
+            return count;
+        
+        newStr +=a;
+        count++;
+        
+        return (newStr.find(b)!=string::npos)?count:-1;
+        
+    }
+};
