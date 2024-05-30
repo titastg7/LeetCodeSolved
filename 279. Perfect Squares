@@ -1,0 +1,40 @@
+279. Perfect Squares
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    void getSquares(vector<int>*arr, int n)
+    {
+        int i=1;
+        for(i=1;i<=sqrt(n);i++)
+            arr->push_back(i*i);
+    }
+    
+    int findAll(int num, int ind, vector<int> &squares,  vector<vector<int>> *memo )
+    {
+        if(num==0)
+            return 0;
+        if(ind<0)
+            return INT_MAX/4;
+        if((*memo)[num][ind]!=-1)
+            return (*memo)[num][ind];
+        int t1 = findAll(num,ind-1,squares,memo);
+        int t2=INT_MAX/4;
+        if(num-squares[ind]>=0)
+            t2 = 1+findAll(num-squares[ind],ind,squares,memo);
+        (*memo)[num][ind] = min(t1,t2);
+        return (*memo)[num][ind];
+    }
+    int numSquares(int n) 
+    {
+        vector<int> squares;
+        getSquares(&squares,n);
+        int len=squares.size();
+        vector<vector<int>> memo(n+1,vector<int>(len,-1));
+        
+        return findAll(n,len-1, squares,&memo);
+    }
+};
