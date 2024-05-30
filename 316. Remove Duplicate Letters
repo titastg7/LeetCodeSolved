@@ -1,0 +1,47 @@
+316. Remove Duplicate Letters
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    string removeDuplicateLetters(string s) 
+    {
+        int i,n=s.length();
+        string res;
+        unordered_map<char,int> lastIndex;
+        stack<char> counter;
+        unordered_set<char> visited;
+        
+        for(i=0;i<n;i++)
+            lastIndex[s[i]]=i;
+        
+        for(i=0;i<n;i++)
+        {
+            if(counter.empty())
+            {
+                counter.push(s[i]);
+                visited.insert(s[i]);
+            }
+            else if(visited.find(s[i])==visited.end())
+            {
+                while(!counter.empty() && s[i]<counter.top() && lastIndex[counter.top()]>i )
+                {
+                    visited.erase(counter.top());
+                    counter.pop();
+                }
+                visited.insert(s[i]);
+                counter.push(s[i]);
+            }
+        }
+        
+        while(!counter.empty())
+        {
+            res +=counter.top();
+            counter.pop();
+        }
+        reverse(res.begin(),res.end());
+        return res;
+    }
+};
