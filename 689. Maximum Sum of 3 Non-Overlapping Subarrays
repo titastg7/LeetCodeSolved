@@ -1,0 +1,62 @@
+689. Maximum Sum of 3 Non-Overlapping Subarrays
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    vector<int> maxSumOfThreeSubarrays(vector<int>& nums, int k) {
+        vector<int> res(3,0);
+        int n=nums.size(),i,temp, curSum=0,maxSum;
+        vector<int>sum(n+1,0);
+        vector<int> left(n,0), right(n,n-k);
+        
+        for(i=0;i<n;i++)
+            sum[i+1] = sum[i]+nums[i];
+
+        
+        temp= sum[k];
+        for(i=k;i<n;i++)
+        {
+            curSum = sum[i+1]-sum[i+1-k];
+            if(curSum>temp)
+            {
+                left[i] = i+1-k;
+                temp=curSum;
+            }
+            else
+                left[i] = left[i-1];
+        }
+        
+        temp= sum[n]-sum[n-k];
+        for(i=n-1-k;i>=0;i--)
+        {
+            curSum = sum[i+k]-sum[i];
+            if(curSum>=temp)
+            {
+                right[i] = i;
+                temp=curSum;
+            }
+            else
+                right[i] = right[i+1];
+        }
+        
+        temp=0;
+        
+        for(i=k;i<=n-2*k;i++)
+        {
+            int l = left[i-1], r = right[i+k];
+            temp = sum[i+k]-sum[i] + sum[l+k]-sum[l] + sum[r+k]-sum[r];
+            if(maxSum<temp)
+            {
+                maxSum=temp;
+                res[0]=l;
+                res[1]=i;
+                res[2]=r;
+            }
+            
+        }
+        return res;
+    }
+};
