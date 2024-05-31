@@ -1,0 +1,37 @@
+373. Find K Pairs with Smallest Sums
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef pair<long long,pair<long long, long long>> ii;
+    vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) 
+    {
+        vector<vector<int>> res;
+        long long m=nums1.size(), n=nums2.size(),i,j,x,y;
+        priority_queue<ii, vector<ii>, greater<ii>> counter;
+        
+        for(i=0;i<n;i++)
+            counter.push({nums1[0]+nums2[i],{0,i}});
+        vector<int> indices(2);
+        
+        while(!counter.empty())
+        {
+            auto element = counter.top().second;
+            counter.pop();
+            indices[0] = nums1[element.first];
+            indices[1] = nums2[element.second];
+            res.push_back(indices);
+            k--;
+            if(k<=0)
+                break;
+            
+            if(element.first+1<m)
+                counter.push({nums1[element.first+1]+nums2[element.second],{element.first+1,element.second}});
+
+        }
+        return res;
+    }
+};
