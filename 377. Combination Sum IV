@@ -1,0 +1,34 @@
+377. Combination Sum IV
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+
+    int find(vector<int> &nums, int target,vector<int>*memo)
+    {    
+        if(target==0)
+        {
+            return 1;
+        }
+        if(target<0)
+            return 0;
+        if((*memo)[target]!=-1)
+            return (*memo)[target];
+        int i,n=nums.size(),res=0;
+        for(i=0;i<n;i++)
+        {
+            res +=find(nums,target-nums[i],memo);
+        }
+        (*memo)[target]=res;
+        return(*memo)[target];
+    }
+    int combinationSum4(vector<int>& nums, int target) {
+        int n=nums.size();
+        vector<int>memo(target+1,-1);
+        
+        return find(nums,target,&memo);
+    }
+};
