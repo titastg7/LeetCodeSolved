@@ -1,0 +1,52 @@
+844. Backspace String Compare
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool backspaceCompare(string s, string t) 
+    {
+        int i=0,j=0,l1=s.length(),l2=t.length();
+        
+        stack<char> counter;
+        string newS, newT;
+        while(i<l1)
+        {
+            if(s[i]=='#')
+            {
+                if(!counter.empty())
+                    counter.pop();
+            }
+            else
+                counter.push(s[i]);
+            i++;
+        }
+        while(!counter.empty())
+        {
+            newS += counter.top();
+            counter.pop();
+        }
+        
+        while(j<l2)
+        {
+            if(t[j]=='#')
+            {
+                if(!counter.empty())
+                    counter.pop();
+            }
+            else
+                counter.push(t[j]);
+            j++;
+            
+        }
+        
+        while(!counter.empty())
+        {
+            newT += counter.top();
+            counter.pop();
+        }
+        return newS==newT;
+    }
+};
