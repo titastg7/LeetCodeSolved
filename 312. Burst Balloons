@@ -1,0 +1,33 @@
+312. Burst Balloons
+
+C++ Code
+----------------------------------
+
+
+
+
+class Solution {
+public:
+    int find(vector<int>&nums, int i, int j, vector<vector<int>>*memo)
+    {
+        if(i>j)
+            return 0;
+        if((*memo)[i][j]!=-1)
+            return (*memo)[i][j];
+        int k,res=INT_MIN/2,localMax=0;
+        for(k=i;k<=j;k++)
+        {
+            localMax = nums[i-1]*nums[k]*nums[j+1]+ find(nums,i,k-1,memo)+find(nums,k+1,j,memo);
+            res= max(res,localMax);
+        }
+        (*memo)[i][j]=res;
+        return (*memo)[i][j];
+    }
+    int maxCoins(vector<int>& nums) {
+        nums.insert(nums.begin(),1);
+        nums.push_back(1);
+        int i,n=nums.size();
+        vector<vector<int>> memo(n,vector<int>(n,-1));
+        return find(nums,1,n-2,&memo);
+    }
+};
