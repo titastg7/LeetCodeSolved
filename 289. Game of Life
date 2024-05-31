@@ -1,0 +1,71 @@
+289. Game of Life
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    vector<int> cr = {-1,-1,-1,0,0,1,1,1};
+    vector<int> cc = {-1,0,1,-1,1,-1,0,1};
+    bool valid(int i, int j, int m, int n)
+    {
+        if(i<0||j<0||i>=m||j>=n)
+            return 0;
+        return 1;
+    }
+    void gameOfLife(vector<vector<int>>& board) {
+        int m=board.size(), n=board[0].size(),i,x,y,liveCell=0,j;
+        pair<int,int> top;
+        // 2=> if changing from 0 to 1
+        // 3=> if changing from 1 to 0
+        queue<pair<int,int>> counter;
+        vector<vector<bool>> visited(m,vector<bool>(n,0));
+        counter.push({0,0});
+        while(!counter.empty())
+        {
+            top = counter.front();
+            counter.pop();
+            visited[top.first][top.second]=1;
+            liveCell=0;
+            for(i=0;i<8;i++)
+            {
+                x = cr[i]+top.first;
+                y = cc[i]+top.second;
+                if(valid(x,y,m,n))
+                {
+                    if(board[x][y]==1 || board[x][y]==3)
+                    {
+                        liveCell++;
+                    }
+                    if(!visited[x][y])
+                    {
+                        counter.push({x,y});
+                        visited[x][y]=1;
+                    }    
+                }
+            }
+            if(board[top.first][top.second]==1)
+            {
+                if(liveCell>3 || liveCell<2)
+                    board[top.first][top.second]=3;
+            }
+            else if(board[top.first][top.second]==0)
+            {
+                if(liveCell==3)
+                    board[top.first][top.second]=2;
+            }
+        }
+        
+        for(i=0;i<m;i++)
+        {
+            for(j=0;j<n;j++)
+            {
+                if(board[i][j]==2)
+                    board[i][j]=1;
+                else if(board[i][j]==3)
+                    board[i][j]=0;
+            }
+        }
+    }
+};
