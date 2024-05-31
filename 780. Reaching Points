@@ -1,0 +1,25 @@
+780. Reaching Points
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef pair<long long,long long> ii;
+    bool reachingPoints(int sx, int sy, int tx, int ty) 
+    {
+        while(sx<tx && sy<ty)
+        {
+            if(tx>ty)
+                tx %=ty;
+            else
+                ty %=tx;
+        }
+        if((sx==tx) && (sy<=ty))
+            return (ty-sy) % tx==0;
+        if((sy==ty) && (sx<=tx))
+            return (tx-sx) % ty==0;
+        return 0;
+    }
+};
