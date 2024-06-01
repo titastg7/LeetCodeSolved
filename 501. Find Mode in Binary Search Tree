@@ -1,0 +1,50 @@
+501. Find Mode in Binary Search Tree
+
+
+C++ Code
+----------------------------------
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    void getFrequency(TreeNode* root, unordered_map<int,int> *counter)
+    {
+        if(root==NULL)
+            return;
+        (*counter)[root->val]++;
+        getFrequency(root->left,counter);
+        getFrequency(root->right,counter);
+        return;
+    }
+    
+    vector<int> findMode(TreeNode* root) 
+    {
+        vector<int> res;
+        unordered_map<int,int> counter;
+        getFrequency(root,&counter);
+        priority_queue<pair<int,int>> maxHeap;
+        int maxVal;
+        for(auto e:counter)
+            maxHeap.push({e.second,e.first});
+        maxVal = maxHeap.top().first;
+        while(!maxHeap.empty())
+        {
+            if(maxVal==maxHeap.top().first)
+                res.push_back(maxHeap.top().second);
+            else
+                break;
+            maxHeap.pop();
+        }
+        return res;
+    }
+};
