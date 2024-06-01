@@ -1,0 +1,73 @@
+1603. Design Parking System
+
+
+C++ Code
+----------------------------------
+
+class ParkingSystem {
+public:
+    class Lot
+    {
+        int smallSlot, bigSlot, mediumSlot;
+        public: Lot(int pSmall, int pMedium, int pBig) : smallSlot(pSmall), mediumSlot(pMedium), bigSlot(pBig)
+        {}
+        int getSmallSlot()
+        {
+            return smallSlot;
+        }
+        int getmediumSlot()
+        {
+            return mediumSlot;
+        }
+        int getBigSlot()
+        {
+            return bigSlot;
+        }
+        void setBigSlot()
+        {
+            bigSlot--;
+        }
+        void setSmallSlot()
+        {
+            smallSlot--;
+        }
+        void setMediumSlot()
+        {
+            mediumSlot--;
+        }
+    };
+    Lot *newParkingLot;
+    ParkingSystem(int big, int medium, int small) 
+    {
+        newParkingLot = new Lot(small,medium,big);
+    }
+    
+    bool addCar(int carType) 
+    {
+        if(carType==3)
+        {
+            if(newParkingLot->getSmallSlot()<=0)
+                return false;
+            newParkingLot->setSmallSlot();
+            return 1;
+            
+        }
+        if(carType==2)
+        {
+            if(newParkingLot->getmediumSlot()<=0)
+                return false;
+            newParkingLot->setMediumSlot();
+            return true;
+        }
+        if(newParkingLot->getBigSlot()<=0)
+            return false;
+        newParkingLot->setBigSlot();
+        return true;
+    }
+};
+
+/**
+ * Your ParkingSystem object will be instantiated and called as such:
+ * ParkingSystem* obj = new ParkingSystem(big, medium, small);
+ * bool param_1 = obj->addCar(carType);
+ */
