@@ -1,0 +1,35 @@
+482. License Key Formatting
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    string licenseKeyFormatting(string s, int k) 
+    {
+        int n=s.length(),i;
+        string res;
+        stack<char> counter;
+        for(i=0;i<n;i++)
+        {
+            if(s[i]!='-')
+                counter.push(toupper(s[i]));
+        }
+        
+        while(!counter.empty())
+        {
+            i=k;
+            while(!counter.empty() && i--)
+            {
+                res.push_back(counter.top());
+                counter.pop();
+            }
+            res.push_back('-');
+        }
+        
+        if(res.size())
+            res.pop_back();
+        reverse(res.begin(),res.end());
+        return res;
+    }
+};
