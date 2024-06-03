@@ -1,0 +1,41 @@
+503. Next Greater Element II
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    vector<int> findGreater(vector<int> &nums)
+    {
+        int i,j,n=nums.size(),m=(2*n)-1;
+        vector<int> res(n);
+        vector<int> greater(m), arr(m);
+        for(i=0;i<n;i++)
+            arr[i]=nums[i];
+        for(j=0;j<n-1;j++,i++)
+            arr[i]=nums[j];
+        stack<int> counter;
+        for(i=m-1;i>=0;i--)
+        {
+            if(counter.empty())
+                greater[i]= -1;
+            else
+            {
+                while(!counter.empty() && arr[i]>=counter.top())
+                    counter.pop();
+                if(counter.empty())
+                    greater[i] = -1;
+                else
+                    greater[i] = counter.top();
+            }
+            counter.push(arr[i]);
+        }
+
+        return vector<int>(greater.begin(),greater.begin()+n);
+    }
+    vector<int> nextGreaterElements(vector<int>& nums) 
+    {
+      return findGreater(nums);  
+    }
+};
