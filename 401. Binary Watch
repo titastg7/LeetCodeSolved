@@ -1,0 +1,33 @@
+401. Binary Watch
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+
+    vector<string> readBinaryWatch(int turnedOn) 
+    {
+        vector<string> res;
+        int hours,mins;
+        for(hours=0;hours<12;hours++)
+        {
+            for(mins=0;mins<60;mins++)
+            {
+                bitset<8> hourBits(hours);
+                bitset<8> minBits(mins);
+                string time="";
+                if((hourBits.count()+ minBits.count()) == turnedOn)
+                {
+                    time += to_string(hours)+":";
+                    if(mins<10)
+                        time +="0";
+                    time +=to_string(mins);
+                    res.push_back(time);
+                }
+            }
+        }
+        return res;
+    }
+};
