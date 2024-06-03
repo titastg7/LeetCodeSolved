@@ -1,0 +1,30 @@
+451. Sort Characters By Frequency
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    string frequencySort(string s) 
+    {
+        int n=s.length(),i;
+        unordered_map<char,int> counter;
+        priority_queue<pair<int,char>> frequency;
+        string res;
+        for(i=0;i<n;i++)
+            counter[s[i]]++;
+        for(auto e:counter)
+            frequency.push({e.second,e.first});
+        while(!frequency.empty())
+        {
+            auto ch = frequency.top();
+            for(i=0; i<ch.first;i++)
+            {
+                res +=ch.second;
+            }
+            frequency.pop();
+        }
+        return res;
+    }
+};
