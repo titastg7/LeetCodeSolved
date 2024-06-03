@@ -1,0 +1,33 @@
+812. Largest Triangle Area
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    double largestTriangleArea(vector<vector<int>>& points) {
+        /*   Area of triangle formula
+            --------------------------
+            (|x1(y2-y3) + x2(y3-y1) + x3(y1-y2)|)/2
+        */
+        
+        int i,j,k,n=points.size();
+        double res=0, localArea=0;
+        
+        for(i=0;i<n-2;i++)
+        {
+            for(j=i+1;j<n-1;j++)
+            {
+                for(k=j+1;k<n;k++)
+                {
+                    localArea = abs (points[i][0]*(points[j][1]-points[k][1]) + 
+                                points[j][0]*(points[k][1]-points[i][1])+
+                                points[k][0]*(points[i][1]-points[j][1]) ) *0.5;
+                    res = max(res, localArea);
+                }
+            }
+        }
+        return res;
+    }
+};
