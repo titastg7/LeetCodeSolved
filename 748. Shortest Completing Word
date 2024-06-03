@@ -1,0 +1,50 @@
+748. Shortest Completing Word
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool check(string word, unordered_map<char,int> charMap)
+    {
+        int i,n=word.length();
+        for(i=0;i<n;i++)
+        {
+            char ch = tolower(word[i]);
+            if(charMap.find(ch)!=charMap.end())
+            {
+                charMap[ch]--;
+                if(charMap[ch]==0)
+                    charMap.erase(ch);
+            }
+            
+        }
+        return charMap.empty();
+    }
+    string shortestCompletingWord(string licensePlate, vector<string>& words) 
+    {
+        string res;
+        int i,slen=licensePlate.length(), n=words.size(), reslen=16;
+        unordered_map<char,int> charMap;
+        for(i=0;i<slen;i++)
+        {
+            char ch = tolower(licensePlate[i]);
+            if(isalpha(ch))
+                charMap[ch]++;
+        }
+
+        for(i=0;i<n;i++)
+        {
+            if(check(words[i],charMap))
+            {
+                if(reslen > words[i].length())
+                {
+                    res= words[i];
+                    reslen = words[i].length();
+                }
+            }
+        }
+        return res;
+    }
+};
