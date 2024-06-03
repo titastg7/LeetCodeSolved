@@ -1,0 +1,36 @@
+808. Soup Servings
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    double calculate(int asoup, int bsoup, vector<vector<double>>*memo, const vector<vector<int>> &operations)
+    {
+        if(asoup<=0 && bsoup<=0)
+            return 0.5;
+        if(asoup<=0)
+            return 1.0;
+        if(bsoup<=0)
+            return 0.0;
+        if((*memo)[asoup][bsoup]!=-1)
+            return (*memo)[asoup][bsoup];
+        int k;
+        double res=0.0;
+        for(k=0;k<4;k++)
+        {
+            res += 0.25 * calculate(asoup-operations[k][0],bsoup-operations[k][1],memo,operations);
+        }
+        (*memo)[asoup][bsoup] = res;
+        return (*memo)[asoup][bsoup];
+    }
+    double soupServings(int n)
+    {
+        if(n > 4500)
+            return 1.0;
+        vector<vector<double>> memo(n+1,vector<double>(n+1,-1));
+        const vector<vector<int>> operations = {{100,0},{75,25},{50,50},{25,75}};
+        return calculate(n,n,&memo,operations);
+    }
+};
