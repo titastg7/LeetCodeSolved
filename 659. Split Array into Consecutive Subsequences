@@ -1,0 +1,38 @@
+659. Split Array into Consecutive Subsequences
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+
+    typedef priority_queue<int, vector<int>, greater<int>> pq;
+    bool isPossible(vector<int>& nums) 
+    {
+        int i,n=nums.size(), subSize;
+        unordered_map<int,pq> counter;
+        for(i=0;i<n;i++)
+        {
+            if(counter.find(nums[i]-1)!=counter.end())
+            {
+                subSize = counter[nums[i]-1].top();
+                counter[nums[i]-1].pop();
+                
+                if(counter[nums[i]-1].empty())
+                    counter.erase(nums[i]-1);
+                
+                counter[nums[i]].push(subSize+1);
+            }
+            else
+                counter[nums[i]].push(1);
+        }
+
+        for(auto e: counter)
+        {
+            if(e.second.top()<3)
+                return false;
+        }
+        return true;
+    }
+};
