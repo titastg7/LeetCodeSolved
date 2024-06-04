@@ -1,0 +1,68 @@
+838. Push Dominoes
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef pair<int,int> ii;
+    bool valid(int ind, int n)
+    {
+        if(ind<0 || ind>=n)
+            return 0;
+        return 1;
+    }
+    string pushDominoes(string dominoes) 
+    {
+        int n=dominoes.size(),i,timeStamp=0, level=0,ind;
+        queue<ii> time;
+        vector<int> curPos(n,0);
+        vector<int> visited(n,-1);
+        for(i=0;i<n;i++)
+        {
+            if(dominoes[i]=='L')
+            {
+                time.push({i,-1});
+                visited[i]=timeStamp;
+            }
+            if(dominoes[i]=='R')
+            {
+                time.push({i,1});
+                visited[i]=timeStamp;
+            }
+        }
+        
+        while(!time.empty())
+        {
+            level=time.size();
+            timeStamp++;
+            while(level--)
+            {
+                ii topE = time.front();
+                //cout<<topE.first<<","<<topE.second<<"    ";
+                time.pop();
+                curPos[topE.first] += topE.second;
+
+                ind = topE.first+topE.second;
+                if(valid(ind,n) && (visited[ind]==-1 || visited[ind]==timeStamp))
+                {
+                    time.push({ind,curPos[ind]+topE.second});
+                    visited[ind]=timeStamp;
+                }
+            }
+        }
+        
+        string res;
+        for(i=0;i<n;i++)
+        {
+            if(curPos[i]==1)
+                res +='R';
+            else if(curPos[i]==-1)
+                res +='L';
+            else
+                res +='.';
+        }
+        return res;
+    }
+};
