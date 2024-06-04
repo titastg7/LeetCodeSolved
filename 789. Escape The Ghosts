@@ -1,0 +1,22 @@
+789. Escape The Ghosts
+
+
+C++ Code
+----------------------------------
+
+
+class Solution {
+public:
+    bool escapeGhosts(vector<vector<int>>& ghosts, vector<int>& target) 
+    {
+        int i, n = ghosts.size(), ghostSteps=0,minGhostSteps=INT_MAX;
+        int requiredSteps = abs(target[0])+abs(target[1]);
+        
+        for(i=0;i<n;i++)
+        {
+            ghostSteps = abs(ghosts[i][0]-target[0])+abs(ghosts[i][1]-target[1]);
+            minGhostSteps = min(minGhostSteps,ghostSteps);
+        }
+        return requiredSteps<minGhostSteps;
+    }
+};
