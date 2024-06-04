@@ -1,0 +1,35 @@
+729. My Calendar I
+
+
+C++ Code
+----------------------------------
+
+class MyCalendar {
+public:
+    map<int,int> scheduledEvents;
+    MyCalendar() 
+    {
+        scheduledEvents.clear();
+    }
+    
+    bool book(int start, int end) 
+    {
+        auto it = scheduledEvents.upper_bound(start);
+        if(it==scheduledEvents.end())
+        {
+            scheduledEvents[end]=start;
+            return true;
+        }
+        
+        if(start<it->first && it->second<end)
+            return false;
+        scheduledEvents[end]=start;
+        return true;
+    }
+};
+
+/**
+ * Your MyCalendar object will be instantiated and called as such:
+ * MyCalendar* obj = new MyCalendar();
+ * bool param_1 = obj->book(start,end);
+ */
