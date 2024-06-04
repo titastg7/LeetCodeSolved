@@ -1,0 +1,48 @@
+218. The Skyline Problem
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef pair<int,int> ii;
+    vector<vector<int>> getSkyline(vector<vector<int>>& buildings) 
+    {
+        vector<vector<int>> res;
+        int n=buildings.size(),height,x,ind,y,i;
+        map<int,vector<ii>> intervals;
+        set<ii,greater<ii>> maxHeights;
+        
+        for(i=0;i<n;i++)
+        {
+            intervals[buildings[i][0]].push_back({0,i});
+            intervals[buildings[i][1]].push_back({1,i});
+        }
+        
+        for(auto element : intervals)
+        {
+            auto temp = element.second;
+            for(i=0;i<temp.size();i++)
+            {
+                height = buildings[temp[i].second][2];
+                ind = temp[i].second;
+                if(temp[i].first)
+                {
+                    maxHeights.erase({height,ind});
+                }
+                else
+                    maxHeights.insert({height,ind});
+            }
+            x = element.first;
+            if(maxHeights.empty())
+                y=0;
+            else
+                y = maxHeights.begin()->first;
+            int size = res.size();
+            if(!size || res[size-1][1]!=y)
+                res.push_back({x,y});
+        }
+        return res;
+    }
+};
