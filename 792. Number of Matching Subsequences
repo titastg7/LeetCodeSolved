@@ -1,0 +1,42 @@
+792. Number of Matching Subsequences
+
+
+C++ Code
+----------------------------------
+
+
+
+class Solution {
+public:
+    bool isSubsequence(string pattern, string a)
+    {
+        int l1=pattern.length(), l2=a.length(),i=0,j=0;
+        while(i<l1 && j<l2)
+        {
+            if(pattern[i]==a[j])
+                j++;
+            i++;
+        }
+        return j==l2;
+    }
+    
+    int numMatchingSubseq(string s, vector<string>& words) 
+    {
+        int n=words.size(),i,res=0;
+        unordered_map<string,int> dict;
+        
+        for(i=0;i<n;i++)
+        {
+            if(dict.find(words[i])!=dict.end())
+            {
+                res +=dict[words[i]];
+            }
+            else if(isSubsequence(s,words[i]))
+            {
+                res++;
+                dict[words[i]]=1;
+            }    
+        }
+        return res;
+    }
+};
