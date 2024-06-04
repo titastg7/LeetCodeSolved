@@ -1,0 +1,37 @@
+732. My Calendar III
+
+
+C++ Code
+----------------------------------
+
+class MyCalendarThree {
+public:
+    map<int,int> slotCounter;
+    int maxKBooking;
+    MyCalendarThree() 
+    {
+        slotCounter.clear();
+        maxKBooking=0;
+        
+    }
+    
+    int book(int startTime, int endTime) 
+    {
+        slotCounter[startTime]++;
+        slotCounter[endTime]--;
+        int sum=0;
+        for(auto slot: slotCounter)
+        {
+            sum += slot.second;
+            maxKBooking = max(maxKBooking,sum);
+            
+        }
+        return maxKBooking;
+    }
+};
+
+/**
+ * Your MyCalendarThree object will be instantiated and called as such:
+ * MyCalendarThree* obj = new MyCalendarThree();
+ * int param_1 = obj->book(startTime,endTime);
+ */
