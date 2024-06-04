@@ -1,0 +1,43 @@
+166. Fraction to Recurring Decimal
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    string fractionToDecimal(int numerator, int denominator) 
+    {
+        
+        if(numerator==0)
+            return "0";
+        string res;
+        long long num = abs(numerator);
+        long long deno = abs(denominator);
+        long long intPart = (num/deno);
+        long long remainder = (num % deno);
+        
+        if(numerator<0 ^ denominator<0)
+            res = "-";
+        res += to_string(intPart);
+        if(remainder == 0)
+            return res;
+        res +=".";
+        unordered_map<long long, long long> remainderMap;
+        while(remainder!= 0)
+        {
+            if(remainderMap.find(remainder)!=remainderMap.end())
+            {
+                res.insert(remainderMap[remainder],"(");
+                res += ')';
+                break;
+            }
+            remainderMap[remainder] = res.size();
+            remainder *=10;
+            intPart = remainder/deno;
+            res += to_string(intPart);
+            remainder = (remainder % deno);
+        }
+        return res;
+    }
+};
