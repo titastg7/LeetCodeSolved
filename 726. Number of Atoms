@@ -1,0 +1,100 @@
+726. Number of Atoms
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef pair<string,int> pStack;
+    
+    string countOfAtoms(string formula) 
+    {
+        string res;
+        int i=0,j,n=formula.length(),count;
+        stack<pStack> counter;
+        
+        
+        while(i<n)
+        {
+            if(formula[i]=='(')
+            {
+                counter.push({"(",1});
+                i++;
+            }
+            else if (isupper(formula[i]))
+            {
+                // Get the Atom
+                j=i+1;
+                string element (1, formula[i]);
+                while(j<n && islower(formula[j]))
+                {
+                    element +=formula[j];
+                    j++;
+                }
+
+                // Get the Count of that Atom
+
+                count=1;
+                string num="";
+                while(j<n && isdigit(formula[j]))
+                {
+                    num += formula[j];
+                    j++;
+                }
+                if(num!="")
+                    count = stoi(num);
+                counter.push({element,count});
+                i=j;
+            }
+            else if(formula[i]==')')
+            {
+                stack<pStack> temp;
+                int count = 1;
+                
+                // Get the Count of that Atom
+                j=i+1;
+                count=1;
+                string num="";
+                while(j<n && isdigit(formula[j]))
+                {
+                    num += formula[j];
+                    j++;
+                }
+                if(num!="")
+                    count = stoi(num);
+                
+                while(!counter.empty() && counter.top().first!="(")
+                {
+                    pStack newElement = counter.top();
+                    counter.pop();
+                    newElement.second *=count;
+                    temp.push(newElement);
+                }
+                if(!counter.empty())
+                    counter.pop();
+                while(!temp.empty())
+                {
+                    counter.push(temp.top());
+                    temp.pop();
+                }
+                i=j;
+            }
+        }
+        
+        map<string,int> numAtoms;
+        while(!counter.empty())
+        {
+            auto it = counter.top();
+            counter.pop();
+            numAtoms[it.first] += it.second;
+        }
+        for(auto it:numAtoms)
+        {
+            res += it.first;
+            if(it.second>1)
+                res +=to_string(it.second);
+        }
+        return res;
+    }
+};
