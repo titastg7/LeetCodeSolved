@@ -1,0 +1,34 @@
+667. Beautiful Arrangement II
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    vector<int> constructArray(int n, int k) 
+    {
+        int i=1,j=n;
+        vector<int> res;
+        while(k>1 && i<j)
+        {
+            if(k%2==0)
+            {
+                res.push_back(j);
+                j--;
+            }
+            else
+            {
+                res.push_back(i);
+                i++;
+            }
+            k--;
+        }
+        while(i<=j)
+        {
+            res.push_back(i);
+            i++;
+        }
+        return res;
+    }
+};
