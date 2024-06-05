@@ -1,0 +1,50 @@
+778. Swim in Rising Water
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef pair<int,int> pi;
+    typedef pair<int,pi> ii;
+    vector<int> cr = {0,0,1,-1};
+    vector<int> cc = {1,-1,0,0};
+    bool check(int x, int y, int n)
+    {
+        if(x<0||y<0||x>=n||y>=n)
+            return 0;
+        return 1;
+    }
+    int swimInWater(vector<vector<int>>& grid) 
+    {
+        int n=grid.size(),x,y,k,i,j,time, res=0;
+        priority_queue<ii, vector<ii>, greater<ii>>  minHeap;
+        vector<vector<bool>> visited(n,vector<bool>(n,0));
+        
+        minHeap.push({grid[0][0], {0,0}});
+        visited[0][0] = 1;
+        while(!minHeap.empty())
+        {
+            ii topE =minHeap.top();
+            minHeap.pop();
+            time = topE.first;
+            i = topE.second.first;
+            j= topE.second.second;
+            res = max(res,time);
+            if(i==n-1 && j==n-1)
+                return res;
+            for(k=0;k<4;k++)
+            {
+                x = cr[k]+i;
+                y = cc[k]+j;
+                if(check(x,y,n) && !visited[x][y])
+                {
+                    minHeap.push({grid[x][y],{x,y}});
+                    visited[x][y]=1;
+                }
+            }
+        }
+        return res;
+    }
+};
