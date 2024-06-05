@@ -1,0 +1,41 @@
+790. Domino and Tromino Tiling
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    #define mod 1000000007
+    int domino(int n, vector<int>*memo,vector<int>*trimemo)
+    {
+        if(n<=1)
+            return 1;
+        if(n<0)
+            return 0;
+
+        if((*memo)[n]!=-1)
+            return (*memo)[n];
+        (*memo)[n] = ((domino(n-1,memo,trimemo)+domino(n-2,memo,trimemo))%mod + 2*trimino(n-2,memo,trimemo)%mod) %mod;
+        return (*memo)[n];
+    }
+    
+    int trimino(int n, vector<int>*memo,vector<int>*trimemo)
+    {
+        if(n<=0)
+            return 0;
+        if(n==1)
+            return 1;
+
+        if((*trimemo)[n]!=-1)
+            return (*trimemo)[n];
+        (*trimemo)[n] = (domino(n-1,memo,trimemo)+ trimino(n-1,memo,trimemo)) %mod;
+        return (*trimemo)[n];
+    }
+    int numTilings(int n) 
+    {
+        vector<int> memo(n+1,-1);
+        vector<int> trimemo(n+1,-1);
+        return domino(n,&memo, &trimemo);
+    }
+};
