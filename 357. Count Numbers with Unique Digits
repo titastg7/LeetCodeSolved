@@ -1,0 +1,21 @@
+357. Count Numbers with Unique Digits
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int countNumbersWithUniqueDigits(int n) 
+    {         
+        vector<int> uniqueDigits(n+1);
+        uniqueDigits[0]=1;
+        int i, total=1;
+        for(i=1;i<=n;i++)
+        {
+            uniqueDigits[i] = (10-i)*uniqueDigits[i-1]+total;
+            total += uniqueDigits[i];
+        }
+        return uniqueDigits[n];
+    }
+};
