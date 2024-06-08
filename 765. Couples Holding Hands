@@ -1,0 +1,34 @@
+765. Couples Holding Hands
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int minSwapsCouples(vector<int>& row) 
+    {
+        int i, n=row.size(),pos,res=0, curCoupleAtPos,couple1,couple2;
+        unordered_map<int,int> positionMap;
+        
+        for(i=0;i<n;i++)
+            positionMap[row[i]] = i;
+        for(i=0;i<n/2;i++)
+        {
+            couple1 = row[2*i];
+            couple2 = couple1^1;
+            if(couple2 == row[2*i+1])
+                continue;
+            
+            pos = positionMap[couple2];
+            curCoupleAtPos = row[2*i+1];
+            row[2*i+1] = couple2;
+            row[pos] = curCoupleAtPos;
+            
+            positionMap[couple2] = 2*i+1;
+            positionMap[curCoupleAtPos] = pos;
+            res++;
+        }
+        return res;
+    }
+};
