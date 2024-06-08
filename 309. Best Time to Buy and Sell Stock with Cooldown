@@ -1,0 +1,34 @@
+309. Best Time to Buy and Sell Stock with Cooldown
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int find(vector<int> &prices, int ind, bool canBuy,vector<vector<int>>*memo)   
+    {
+        if(ind>=prices.size())
+            return 0;
+        if((*memo)[ind][canBuy]!=-1)
+            return (*memo)[ind][canBuy];
+        
+        int res=0;
+        int skip = find(prices,ind+1,canBuy,memo);
+        
+        if(canBuy)
+            res = -prices[ind]+find(prices,ind+1,0,memo);
+        else
+            res = prices[ind]+find(prices,ind+2,1,memo);
+        res =max(skip,res);
+        (*memo)[ind][canBuy] =res;
+        return (*memo)[ind][canBuy];
+    }
+    
+    int maxProfit(vector<int>& prices) 
+    {
+        int n=prices.size();
+        vector<vector<int>> memo(n,vector<int>(2,-1));
+        return find(prices,0,n,&memo);
+    }
+};
