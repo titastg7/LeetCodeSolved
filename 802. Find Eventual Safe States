@@ -1,0 +1,49 @@
+802. Find Eventual Safe States
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) 
+    {
+        int n = graph.size(),i,neighbor,j;
+        vector<int> res, indegree(n,0);
+    
+        vector<vector<int>> adjList(n);
+        for(i=0;i<n;i++)
+        {
+            for(j=0;j<graph[i].size();j++)
+            {
+                adjList[graph[i][j]].push_back(i);
+                indegree[i]++;
+            }
+        }
+        
+        queue<int> counter;
+        for(i=0;i<n;i++)
+        {
+            if(indegree[i]==0)
+                counter.push(i);
+        }
+        
+        while(!counter.empty())
+        {
+            int node = counter.front();
+            counter.pop();
+            res.push_back(node);
+            for(i=0;i<adjList[node].size();i++)
+            {
+                neighbor = adjList[node][i];
+                indegree[neighbor]--;
+                if(indegree[neighbor]==0)
+                    counter.push(neighbor);
+            }
+        }
+        sort(res.begin(),res.end());
+        return res;
+        
+    }
+};
