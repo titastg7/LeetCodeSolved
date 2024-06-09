@@ -1,0 +1,46 @@
+331. Verify Preorder Serialization of a Binary Tree
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool isValidSerialization(string preorder) 
+    {
+        string temp;
+        vector<string> tree;
+        int i,n=preorder.length();
+        stack<string>counter;
+        for(i=0;i<n;i++)
+        {
+            if(preorder[i]==',')
+            {
+                tree.push_back(temp);
+                temp="";
+            }
+            else
+                temp +=preorder[i];
+        }
+        if(temp!="")
+            tree.push_back(temp);
+        n=tree.size();
+        for(i=0;i<n;i++)
+        {
+            if(tree[i]!="#")
+                counter.push(tree[i]);
+            else
+            {
+                while(!counter.empty() && counter.top()=="#")
+                {
+                    counter.pop();
+                    if(counter.empty())
+                        return 0;
+                    counter.pop();
+                }
+                counter.push("#");
+            }
+        }
+        return counter.size()==1 && counter.top()=="#";
+    }
+};
