@@ -1,0 +1,74 @@
+816. Ambiguous Coordinates
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool valid(string coordinate)
+    {
+        int i,n=coordinate.length();
+        if(n==1)
+            return 1;
+        int dotInd = coordinate.find('.');
+        if(dotInd==string::npos)
+        {
+            return coordinate[0]!='0';
+        }
+        string intPart = coordinate.substr(0,dotInd);
+        string fracPart = coordinate.substr(dotInd+1);
+        
+        if(intPart!="0" && intPart[0]=='0')
+            return false;
+        else
+            return !fracPart.ends_with('0');
+        
+    }
+    vector<string> insertDot(string num)
+    {
+        vector<string> validPossibilities;
+        if(valid(num))
+            validPossibilities.push_back(num);
+        int i, n=num.length();
+        string temp;
+        for(i=1;i<=n-1;i++)
+        {
+            temp = num;
+            temp.insert(i,".");
+            if(valid(temp))
+                validPossibilities.push_back(temp);
+        }
+        return validPossibilities;
+    }
+    void createCoordinates(string xCord, string yCord, vector<string>*res)
+    {
+        vector<string> possibleXCords = insertDot(xCord);
+        vector<string> possibleYCords = insertDot(yCord);
+        string newCord;
+        for(auto x : possibleXCords)
+        {
+            for(auto y: possibleYCords)
+            {
+                newCord = "(" + x + ", " + y + ")";
+                res->push_back(newCord);
+            }
+        }
+        return;
+    }
+    vector<string> ambiguousCoordinates(string s) 
+    {
+        vector<string> res;
+        s = s.substr(1);
+        s.pop_back();
+        int i,n=s.length();
+        string xCord, yCord;
+        for(i=1;i<n;i++)
+        {
+            xCord = s.substr(0,i);
+            yCord = s.substr(i);
+            createCoordinates(xCord,yCord, &res);
+        }
+        return res;
+    }
+};
