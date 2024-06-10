@@ -1,0 +1,73 @@
+2462. Total Cost to Hire K Workers
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef long long ll;
+    typedef pair<ll,ll> ii;
+    long long totalCost(vector<int>& costs, int k, int candidates) 
+    {
+        ll i,n=costs.size(), left=0, right=n-1, totalCost=0;
+        priority_queue<ii, vector<ii>, greater<ii>> minHeapLeft, minHeapRight;
+        for(i=0;i<candidates;i++)
+        {
+            minHeapLeft.push({costs[i],i});
+        }
+        left=candidates-1;
+        
+        i=n-1;
+        while(i>left && i>=(n-candidates))
+        {
+            minHeapRight.push({costs[i],i});
+            i--;
+        }
+        right = i+1;
+        
+        ii maxpair = {LLONG_MAX, LLONG_MAX};
+
+        while(k--)
+        {
+            ii topLeft = !minHeapLeft.empty()?minHeapLeft.top():maxpair;
+            ii topRight = !minHeapRight.empty()?minHeapRight.top():maxpair;
+            if(topLeft.first<topRight.first)
+            {
+                minHeapLeft.pop();
+                totalCost +=topLeft.first;
+                left++;
+                if(left<right)
+                    minHeapLeft.push({costs[left],left});
+            }
+            else if(topLeft.first>topRight.first)
+            {
+                minHeapRight.pop();
+                totalCost +=topRight.first;
+                right--;
+                if(right>left)
+                    minHeapRight.push({costs[right],right});
+            }
+            else
+            {
+                if(topLeft.second<topRight.second)
+                {
+                    minHeapLeft.pop();
+                    totalCost +=topLeft.first;
+                    left++;
+                    if(left<right)
+                        minHeapLeft.push({costs[left],left});
+                }
+                else
+                {
+                    minHeapRight.pop();
+                    totalCost +=topRight.first;
+                    right--;
+                    if(right>left)
+                        minHeapRight.push({costs[right],right});
+                }
+            }
+        }
+        return totalCost;
+    }
+};
