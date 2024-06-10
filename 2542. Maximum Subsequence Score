@@ -1,0 +1,40 @@
+2542. Maximum Subsequence Score
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef long long ll;
+    typedef pair<ll,ll> ii;
+    long long maxScore(vector<int>& nums1, vector<int>& nums2, int k) 
+    {
+        ll n=nums1.size(),i,res=0,sum=0;
+        vector<ii> parings(n);
+        for(i=0;i<n;i++)
+            parings[i] = {nums2[i],nums1[i]};
+        
+        sort(parings.begin(), parings.end());
+        priority_queue<int,vector<int>,greater<int>> minHeap; 
+        for(i=n-1;i>=(n-k);i--)
+        {
+            sum +=parings[i].second;
+            minHeap.push(parings[i].second);
+        }
+        
+        res = sum*parings[i+1].first;
+        
+        while(i>=0)
+        {
+            ll topE = minHeap.top();
+            minHeap.pop();
+            sum -=topE;
+            sum +=parings[i].second;
+            minHeap.push(parings[i].second);
+            res = max(res, sum * parings[i].first);
+            i--;
+        }
+        return res;
+    }
+};
