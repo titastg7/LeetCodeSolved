@@ -1,0 +1,30 @@
+213. House Robber II
+
+C++ Code
+----------------------------------
+class Solution {
+public:
+    int find(vector<int>&nums, int ind, int n,vector<int>*memo)
+    {
+        if(ind>=n)
+            return 0;
+        if((*memo)[ind]!=-1)
+            return (*memo)[ind];
+        int skipHouse = find(nums,ind+1,n,memo);
+        int robHouse = nums[ind]+find(nums,ind+2,n,memo);
+        (*memo)[ind]= max(skipHouse,robHouse);
+        return (*memo)[ind];
+            
+    }
+    int rob(vector<int>& nums) 
+    {
+        int n=nums.size();
+        if(n==1)
+            return nums[0];
+        vector<int> memo1(n,-1);
+        vector<int>memo2(n,-1);
+        int robHouseOne = find(nums,0,n-1,&memo1);
+        int robHouseTwo = find(nums,1,n,&memo2);
+        return max(robHouseOne, robHouseTwo);
+    }
+};
