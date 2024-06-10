@@ -1,0 +1,62 @@
+337. House Robber III
+
+
+C++ Code
+----------------------------------
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int find(TreeNode* root, unordered_map<TreeNode*, int> *memo)
+    {
+        if(root==NULL)
+            return 0;
+        if(memo->find(root)!=memo->end())
+            return (*memo)[root];
+        
+        int takeNode=0, skipNode=0;
+        int leftChild=0, rightChild=0, leftLeft=0, leftRight=0, rightLeft=0, rightRight=0;
+        if(root->left)
+            leftChild = find(root->left,memo);
+        if(root->right)
+            rightChild = find(root->right,memo);
+        
+        // Skip current Node;
+        skipNode = leftChild+rightChild;
+        
+        if(root->left!=NULL && root->left->left!=NULL)
+            leftLeft = find(root->left->left,memo);
+        
+        if(root->left!=NULL && root->left->right!=NULL)
+            leftRight = find(root->left->right,memo);
+        
+        if(root->right!=NULL && root->right->left!=NULL)
+            rightLeft = find(root->right->left,memo);
+        
+        if(root->right!=NULL && root->right->right!=NULL)
+            rightRight = find(root->right->right,memo);
+
+        // Take Node
+        takeNode = root->val+ leftLeft+leftRight+rightLeft+rightRight;
+        
+        (*memo)[root] = max(takeNode, skipNode);
+        return (*memo)[root];
+    }
+    int rob(TreeNode* root) 
+    {
+       if(root==NULL)
+           return 0;
+        unordered_map<TreeNode*,int> memo;
+        return find(root,&memo);
+    }
+};
