@@ -1,0 +1,19 @@
+1732. Find the Highest Altitude
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int largestAltitude(vector<int>& gain) 
+    {
+        int res=0,i,altitude=0, n=gain.size();
+        for(i=0;i<n;i++)
+        {
+            altitude +=gain[i];
+            res = max(res,altitude);
+        }
+        return res;
+    }
+};
