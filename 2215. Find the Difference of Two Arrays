@@ -1,0 +1,50 @@
+2215. Find the Difference of Two Arrays
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    vector<vector<int>> findDifference(vector<int>& nums1, vector<int>& nums2) 
+    {
+        vector<vector<int>> res(2);
+
+        int n1=nums1.size(),n2=nums2.size();
+        set<int> arr1(nums1.begin(),nums1.end());
+        set<int> arr2(nums2.begin(),nums2.end());
+        set<int> :: iterator it1 = arr1.begin();
+        set<int>:: iterator it2 = arr2.begin();
+        
+        
+        while(it1!=arr1.end() && it2!=arr2.end())
+        {
+            if(*it1 < *it2)
+            {
+                res[0].push_back(*it1);
+                it1++;
+            }
+            else if(*it1 > *it2)
+            {
+                res[1].push_back(*it2);
+                it2++;
+            }
+            else
+            {
+                it1++;
+                it2++;
+            }
+        }
+        while(it1!=arr1.end())
+        {
+            res[0].push_back(*it1);
+            it1++;
+        }
+        while(it2!=arr2.end())
+        {
+            res[1].push_back(*it2);
+            it2++;
+        }
+        return res;
+    }
+};
