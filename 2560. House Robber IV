@@ -1,0 +1,46 @@
+2560. House Robber IV
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+   
+    int check(vector<int>&nums, int cap)
+    {
+        int i=0,n=nums.size(), count=0;
+        while(i<n)
+        {
+            if(nums[i]<=cap)
+            {
+                count++;
+                i=i+2;
+            }
+            else
+                i++;
+        }
+        return count;
+    }
+    int minCapability(vector<int>& nums, int k) 
+    {
+        int i,n=nums.size(), low=INT_MAX/4, high=0,mid,res;
+        for(i=0;i<n;i++)
+        {
+            low = min(low,nums[i]);
+            high = max(high,nums[i]);
+        }
+        while(low<=high)
+        {
+            mid = low+(high-low)/2;
+            if(check(nums,mid)>=k)
+            {
+                res=mid;
+                high=mid-1;
+            }
+            else
+                low=mid+1;
+        }
+        return res;
+    }
+};
