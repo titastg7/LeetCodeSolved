@@ -1,0 +1,32 @@
+724. Find Pivot Index
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int pivotIndex(vector<int>& nums) 
+    {
+        int i,n=nums.size();
+        vector<int> left(n,0);
+        vector<int> right(n,0);
+        left[0]=nums[0], right[n-1]=nums[n-1];
+        for(i=1;i<n;i++)
+        {
+            left[i] = left[i-1]+nums[i];
+        }
+        for(i=n-2;i>=0;i--)
+        {
+            right[i] = right[i+1]+nums[i];
+        }
+
+        
+        for(i=0;i<n;i++)
+        {
+            if(left[i]-nums[i]==right[i]-nums[i])
+                return i;
+        }
+        return -1;
+    }
+};
