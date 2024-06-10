@@ -1,0 +1,26 @@
+334. Increasing Triplet Subsequence
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool increasingTriplet(vector<int>& nums) 
+    {
+        int i=0,n=nums.size(),first=INT_MAX,second=INT_MAX;
+        if(n<3)
+            return false;
+        while(i<n)
+        {
+            if(nums[i]<=first)
+                first=nums[i];
+            else if(nums[i]<=second)
+                second=nums[i];
+            else
+                return 1;
+            i++;
+        }
+        return 0;
+    }
+};
