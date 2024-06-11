@@ -1,0 +1,30 @@
+2390. Removing Stars From a String
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    string removeStars(string s) 
+    {
+        int i,n=s.length();
+        string res;
+        deque<char> counter;
+        for(i=0;i<n;i++)
+        {
+            if(s[i]=='*')
+                counter.pop_back();
+            else
+                counter.push_back(s[i]);
+        }
+        
+        while(!counter.empty())
+        {
+            res +=counter.front();
+            counter.pop_front();
+        }
+        return res;
+        
+    }
+};
