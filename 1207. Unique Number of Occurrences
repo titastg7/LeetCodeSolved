@@ -1,0 +1,24 @@
+1207. Unique Number of Occurrences
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool uniqueOccurrences(vector<int>& arr) 
+    {
+        int i,n=arr.size();
+        unordered_map<int,int> counter;
+        for(i=0;i<n;i++)
+            counter[arr[i]]++;
+        unordered_set<int> unique;
+        for(auto it: counter)
+        {
+            if(unique.find(it.second)!=unique.end())
+                return 0;
+            unique.insert(it.second);
+        }
+        return 1;
+    }
+};
