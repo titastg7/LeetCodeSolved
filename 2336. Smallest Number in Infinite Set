@@ -1,0 +1,41 @@
+2336. Smallest Number in Infinite Set
+
+
+C++ Code
+----------------------------------
+
+class SmallestInfiniteSet {
+public:
+    set<int> infiniteSet;
+    SmallestInfiniteSet() 
+    {
+        int i;
+        infiniteSet.clear();
+        for(i=1;i<=1000;i++)
+            infiniteSet.insert(i);
+        
+    }
+    
+    int popSmallest() 
+    {
+        if(!infiniteSet.empty())
+        {
+            int val = *(infiniteSet.begin());
+            infiniteSet.erase(val);
+            return val;
+        }
+        return -1;
+    }
+    
+    void addBack(int num) 
+    {
+        infiniteSet.insert(num);    
+    }
+};
+
+/**
+ * Your SmallestInfiniteSet object will be instantiated and called as such:
+ * SmallestInfiniteSet* obj = new SmallestInfiniteSet();
+ * int param_1 = obj->popSmallest();
+ * obj->addBack(num);
+ */
