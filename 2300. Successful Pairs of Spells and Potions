@@ -1,0 +1,34 @@
+2300. Successful Pairs of Spells and Potions
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef long long ll;
+
+    vector<int> successfulPairs(vector<int>& spells, vector<int>& potions, long long success) 
+    {
+        ll  i,n=spells.size(),m=potions.size(),ind,low,high,mid;
+        vector<int>res(n,0);
+        sort(potions.begin(), potions.end());
+        for(i=0;i<n;i++)
+        {
+            low=0;
+            high = m-1;
+            while(low<=high)
+            {
+                mid = low+(high-low)/2;
+                if(ll(spells[i])*(ll)potions[mid] >= success)
+                {
+                    high = mid-1;
+                }
+                else
+                    low = mid+1;
+            }
+            res[i] = m-low;
+        }
+        return res;
+    }
+};
