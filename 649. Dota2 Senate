@@ -1,0 +1,37 @@
+649. Dota2 Senate
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    string predictPartyVictory(string senate) 
+    {
+        int i,n=senate.size(),indR, indD;
+        queue<int> radiants, dires;
+        for(i=0;i<n;i++)
+        {
+            if(senate[i]=='R')
+                radiants.push(i);
+            else
+                dires.push(i);
+        }
+        
+        while(!radiants.empty() && !dires.empty())
+        {
+            indR = radiants.front();
+            indD = dires.front();
+            if(indR <indD)
+                radiants.push(n++);
+            else
+                dires.push(n++);
+            radiants.pop();
+            dires.pop();
+        }
+        if(radiants.empty())
+            return "Dire";
+        else
+            return "Radiant";
+    }
+};
