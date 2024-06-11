@@ -1,0 +1,52 @@
+809. Expressive Words
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int expressiveWords(string s, vector<string>& words) 
+    {
+        int j,k,i,n=words.size(), lenS=s.length(), lenW,res=0,x,y, isStrechy=1;
+        for(i=0;i<n;i++)
+        {
+            j=0;
+            k=0;
+            lenW = words[i].length();
+            isStrechy=1;
+            while(j<lenS && k<lenW)
+            {
+                char ch = words[i][k];
+                if(s[j]!=ch)
+                {
+                    isStrechy=0;
+                    break;
+                }
+                else
+                {
+                    int matchS=0, matchW=0;
+                    while(j<lenS && s[j]==ch)
+                    {
+                        j++;
+                        matchS++;
+                    }
+                    while(k<lenW && words[i][k]==ch)
+                    {
+                        k++;
+                        matchW++;
+                    }
+                    
+                    if(matchS<matchW || matchS!=matchW && matchS<3)
+                    {
+                        isStrechy=0;
+                        break;
+                    }
+                } 
+            }
+            if(isStrechy==1 && j==lenS && k==lenW)
+                res++;
+        }
+        return res;
+    }
+};
