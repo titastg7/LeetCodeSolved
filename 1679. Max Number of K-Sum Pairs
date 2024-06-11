@@ -1,0 +1,28 @@
+1679. Max Number of K-Sum Pairs
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int maxOperations(vector<int>& nums, int k) 
+    {
+        int i, n=nums.size(),res=0;
+        unordered_map<int,int> counter;
+        for(i=0;i<n;i++)
+        {
+            int diff = k-nums[i];
+            if(counter.find(diff)!=counter.end())
+            {
+                counter[diff]--;
+                if(counter[diff]==0)
+                    counter.erase(diff);
+                res++;
+            }
+            else
+                counter[nums[i]]++;
+        }
+        return res;
+    }
+};
