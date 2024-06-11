@@ -1,0 +1,21 @@
+2765. Longest Alternating Subarray
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int alternatingSubarray(vector<int>& nums) 
+    {
+        int i,n=nums.size(),res=1,increasing=1, decreasing=1,temp;
+        for(i=1;i<n;i++)
+        {
+            temp = increasing;
+            increasing = nums[i] == nums[i-1]+1 ? decreasing+1:1;
+            decreasing = temp>1 && nums[i]== nums[i-1]-1?temp+1:1;
+            res = max(res,max(increasing, decreasing));
+        }
+        return res == 1 ? -1 : res;
+    }
+};
