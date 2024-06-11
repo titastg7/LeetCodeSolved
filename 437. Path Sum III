@@ -1,0 +1,50 @@
+437. Path Sum III
+
+
+C++ Code
+----------------------------------
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    typedef long long ll;
+    void find(TreeNode* root, ll &sum, int target, unordered_map<ll,ll> *memo, ll &res)
+    {
+        if(!root)
+            return;
+        sum += root->val;
+              
+        if(memo->find(sum-target)!=memo->end())
+        {
+            res += (*memo)[sum-target];
+        }
+                
+        (*memo)[sum]++;
+
+        find(root->left,sum,target,memo,res);
+        find(root->right,sum,target,memo,res);
+        
+        (*memo)[sum]--;
+        sum -= root->val;
+        return;
+    }
+    
+    int pathSum(TreeNode* root, int targetSum) 
+    {
+        unordered_map<ll,ll> memo;
+        long long sum=0, res=0;
+        memo[0]=1;
+        find(root,sum,targetSum,&memo, res);
+        return res;
+    }
+};
