@@ -1,0 +1,82 @@
+394. Decode String
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    string generate(string s,int num)
+    {
+        string res;
+        while(num--)
+        {
+            res +=s;
+        }
+        return res;
+    }
+    void pushNum(stack<string>*counter, string num)
+    {
+        string topStr;
+        if(!counter->empty() && isdigit(counter->top()[0]))
+        {
+            topStr = counter->top();
+            counter->pop();
+            topStr +=num;
+            counter->push(topStr);
+        }
+        else
+            counter->push(num);
+        return;
+    }
+    
+    void pushStr(stack<string>*counter, string str)
+    {
+        if(!counter->empty() && isalpha(counter->top()[0]))
+        {
+            string s = counter->top();
+            counter->pop();
+            s +=str;
+            counter->push(s);
+        }
+        else
+            counter->push(str);
+        return;
+    }
+    string decodeString(string s) 
+    {
+        string temp;
+        int i=0,n=s.length(), count;
+        stack<string> counter;
+        for(i=0;i<n;i++)
+        {
+            if(s[i]=='[')
+                counter.push ("[");
+            else if(isdigit(s[i]))
+            {
+                pushNum(&counter,string(1,s[i]));
+            }
+            else if(isalpha(s[i]))
+                pushStr(&counter,string(1,s[i]));
+            else
+            {
+                temp = counter.top();
+                counter.pop();
+                
+                // for [
+                counter.pop();
+                
+                // for count
+                count = stoi(counter.top());
+                counter.pop();
+                
+                // get repeated string
+                temp = generate(temp,count);
+
+                pushStr(&counter,temp);
+            }
+            
+        }
+        return counter.top();
+    }
+};
