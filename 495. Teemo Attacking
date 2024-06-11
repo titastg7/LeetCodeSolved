@@ -1,0 +1,27 @@
+495. Teemo Attacking
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int findPoisonedDuration(vector<int>& timeSeries, int duration) 
+    {
+        int i,n=timeSeries.size(), res=0;
+        int start = timeSeries[0], end = timeSeries[0]+duration-1;
+        for(i=1;i<n;i++)
+        {
+            if(timeSeries[i]<=end)
+               end = timeSeries[i]+duration-1;
+            else
+            {
+                res += end-start+1;
+                start=timeSeries[i];
+                end = timeSeries[i]+duration-1;
+            }
+        }
+        res += end-start+1;
+        return res;
+    }
+};
