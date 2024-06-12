@@ -1,0 +1,41 @@
+1466. Reorder Routes to Make All Paths Lead to the City Zero
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef pair<int,int> ii;
+    int minReorder(int n, vector<vector<int>>& connections)
+    {
+        int i,res=0,ind,edges=connections.size(),node;
+        vector<vector<ii>> adjList(n);
+        
+        for(i=0;i<edges;i++)
+        {
+            adjList[connections[i][0]].push_back({connections[i][1],1});
+            adjList[connections[i][1]].push_back({connections[i][0],0});
+        }
+        
+        queue<int> level;
+        vector<bool> visited(n,0);
+        level.push(0);
+        visited[0]=1;
+        while(!level.empty())
+        {
+            node = level.front();
+            level.pop();
+            for(auto it : adjList[node])
+            {
+                if(!visited[it.first])
+                {
+                    res +=it.second;
+                    visited[it.first]=1;
+                    level.push(it.first);
+                }
+            }
+        }
+        return res;
+    }
+};
