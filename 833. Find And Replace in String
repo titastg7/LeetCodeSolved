@@ -1,0 +1,47 @@
+833. Find And Replace in String
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool check(string s, int ind, string pat)
+    {
+        int i=ind,j=0, n=pat.length(), slen=s.length();
+        while(i<slen && j<n && s[i]==pat[j])
+        {
+            i++;
+            j++;
+        }
+        return j==n;
+        
+    }
+    string findReplaceString(string s, vector<int>& indices, vector<string>& sources, vector<string>& targets) 
+    {
+        unordered_map<int,pair<int,string>> validReplacements;
+        int i,k=indices.size(),slen=s.length();
+        for(i=0;i<k;i++)
+        {
+            if(check(s,indices[i],sources[i]))
+                validReplacements[indices[i]] = {sources[i].length(),targets[i]};
+        }
+        
+        i=0;
+        string res;
+        while(i<slen)
+        {
+            if(validReplacements.find(i)!=validReplacements.end())
+            {
+                res +=validReplacements[i].second;
+                i +=validReplacements[i].first;
+            }
+            else
+            {
+                res +=s[i];
+                i++;
+            }
+        }
+        return res;
+    }
+};
