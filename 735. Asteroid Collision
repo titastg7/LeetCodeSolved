@@ -1,0 +1,40 @@
+735. Asteroid Collision
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+
+    vector<int> asteroidCollision(vector<int>& asteroids) 
+    {
+        vector<int> res;
+        int i,n=asteroids.size();
+        stack<int> speed;
+        for(i=0;i<n;i++)
+        {
+            if(asteroids[i]>0 || speed.empty())
+                speed.push(asteroids[i]);
+            else
+            {
+                while(!speed.empty() && speed.top() >0 && speed.top()<abs(asteroids[i]))
+                {
+                    speed.pop();
+                }
+                if(speed.empty() || speed.top()<0)
+                    speed.push(asteroids[i]);
+                else if(speed.top()==abs(asteroids[i]))
+                    speed.pop();
+                    
+            }
+        }
+        while(!speed.empty())
+        {
+            res.push_back(speed.top());
+            speed.pop();
+        }
+        reverse(res.begin(),res.end());
+        return res;
+    }
+};
