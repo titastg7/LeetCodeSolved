@@ -1,0 +1,31 @@
+375. Guess Number Higher or Lower II
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int find(int low, int high, vector<vector<int>>*memo)
+    {
+        if(low>=high)
+            return 0;
+
+        if((*memo)[low][high]!=-1)
+            return (*memo)[low][high];
+        
+        int i,res=INT_MAX/6;
+        for(i=low;i<=high;i++)
+        {
+            res = min(res,i+max(find(low,i-1,memo),find(i+1,high,memo)));
+        }
+
+        (*memo)[low][high] = res;
+        return (*memo)[low][high];
+    }
+    int getMoneyAmount(int n) 
+    {
+        vector<vector<int>> memo(n+1,vector<int>(n+1,-1));
+        return find(1,n,&memo);
+    }
+};
