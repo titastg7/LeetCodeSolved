@@ -1,0 +1,53 @@
+834. Sum of Distances in Tree
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    
+    int dfsChildNodes(vector<vector<int>>&adjList, int cur,int parent,vector<int>*childNodes, int depth, int &dist)
+    {
+        int count=1;
+        dist +=depth;
+        //cout<<"\nT1 cur="<<cur<<" d="<<depth<<" dist="<<dist<<" c= "<<count;
+        int i,s=adjList[cur].size();
+        for(i=0;i<s;i++)
+        {
+            if(adjList[cur][i]!=parent)
+                count += dfsChildNodes(adjList,adjList[cur][i],cur,childNodes,depth+1,dist);
+        }
+        (*childNodes)[cur] = count;
+       // cout<<" T2 cur= "<<cur<<" count="<<count<<endl;
+        return count;
+    }
+    
+    void dfs(vector<vector<int>>&adjList, int cur,int parent,vector<int> &childNodes,vector<int>*res, int dist,int n)
+    {
+        (*res)[cur] = dist;
+        for(auto node: adjList[cur])
+        {
+            if(node!=parent)
+                dfs(adjList,node,cur,childNodes,res,dist+n-2*(childNodes[node]),n);
+        }
+    }
+    vector<int> sumOfDistancesInTree(int n, vector<vector<int>>& edges) 
+    {
+        int i,j,e=edges.size();
+        vector<vector<int>> adjList(n);
+        vector<int> res(n,0);
+        for(i=0;i<e;i++)
+        {
+            adjList[edges[i][0]].push_back(edges[i][1]);
+            adjList[edges[i][1]].push_back(edges[i][0]);
+        }
+        
+        vector<int> childNodes(n,0);
+        int depth=0,dist=0;
+        dfsChildNodes(adjList,0,-1,&childNodes,depth,dist);
+        
+        dfs(adjList,0,-1,childNodes,&res,dist,n);
+        return res;
+    }
+};
