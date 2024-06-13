@@ -1,0 +1,58 @@
+315. Count of Smaller Numbers After Self
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    void insert(int i, int ind, int st, int end,vector<int>*segment)
+    {
+        if(st>i || end<i)
+            return;
+        if(st==end)
+        {
+            if(st==i)
+                (*segment)[ind]++;
+            return;
+        }
+        
+        int mid = (st+end)/2;
+        insert(i,2*ind+1,st,mid,segment);
+        insert(i,2*ind+2,mid+1,end,segment);
+        (*segment)[ind] = (*segment)[2*ind+1] + (*segment)[2*ind+2];
+        return;
+    }
+    
+    int calculate(int x, int y, int ind,int st, int end,vector<int> &segment)
+    {
+        if(st>end || y<=st || x>end)
+            return 0;
+        if(st>=x && y>end)
+        {
+            return segment[ind];
+        }
+        
+        int mid = (st+end)/2;
+        int leftS = calculate(x,y,2*ind+1,st,mid,segment);
+        int rightS = calculate(x,y,2*ind+2,mid+1,end,segment);
+        return leftS+rightS;
+    }
+    vector<int> countSmaller(vector<int>& nums) 
+    {
+        int n=nums.size(), maxE=0,i;
+        vector<int> res(n);
+        for(i=0;i<n;i++)
+            maxE = max(maxE,abs(nums[i]));
+        cout<<maxE<<" ";
+        vector<int> segment(8*maxE,0);
+        
+        for(i=n-1;i>=0;i--)
+        {
+            insert(maxE+nums[i],0,0,2*maxE,&segment);
+            res[i] = calculate(0,maxE+nums[i],0,0,2*maxE,segment);
+            
+        }
+        return res;
+    }
+};
