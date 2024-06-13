@@ -1,0 +1,34 @@
+875. Koko Eating Bananas
+
+
+C++ Code
+----------------------------------
+
+
+
+class Solution {
+public:
+    int minEatingSpeed(vector<int>& piles, int h) 
+    {
+        int i,low,high=0,n=piles.size(),mid;
+        sort(piles.begin(),piles.end());
+        high =piles[n-1];
+        low = 1;
+        while(low<=high)
+        {
+            mid = low+(high-low)/2;
+            double requiredHrs=0;
+            for(i=0;i<n;i++)
+            {
+                requiredHrs += ceil((double)piles[i]/(double)mid);
+            }
+            if(requiredHrs<=h)
+            {
+                high=mid-1;
+            }
+            else
+                low=mid+1;
+        }
+        return low;
+    }
+};
