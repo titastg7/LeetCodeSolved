@@ -1,0 +1,26 @@
+481. Magical String
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int magicalString(int n) 
+    {
+        string s="0122";
+        int i,res=0,count;
+        for(i=3;i<=n;i++)
+        {
+            count =s[i]-'0';
+            s.append(count, (i%2==0)?'2':'1');
+        }
+
+        for(i=1;i<=n;i++)
+        {
+            if(s[i]=='1')
+                res++;
+        }
+        return res;
+    }
+};
