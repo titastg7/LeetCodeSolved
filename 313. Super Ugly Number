@@ -1,0 +1,29 @@
+313. Super Ugly Number
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int nthSuperUglyNumber(int n, vector<int>& primes) 
+    {
+        long long i,count=0,m=primes.size();
+        priority_queue<long long,vector<long long>,greater<long long>> minHeap;
+        minHeap.push(1);
+        
+        while(!minHeap.empty())
+        {
+            long long top = minHeap.top();
+            minHeap.pop();
+            count++;
+            if(count==n)
+                return top;
+            while(!minHeap.empty() && minHeap.top()==top)
+                minHeap.pop();
+            for(i=0;i<m;i++)
+                minHeap.push(primes[i]*top);
+        }
+        return -1;
+    }
+};
