@@ -1,0 +1,32 @@
+668. Kth Smallest Number in Multiplication Table
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool check(int mid, int m, int n, int k)
+    {
+        int i,count=0;
+        for(i=1;i<=m;i++)
+        {
+            count += min(mid/i,n);
+        }
+        return count>=k;
+    }
+    
+    int findKthNumber(int m, int n, int k) 
+    {
+        int mid,low=1, high = m*n;
+        while(low<=high)
+        {
+            mid = low+(high-low)/2;
+            if(!check(mid,m,n,k))
+                low = mid+1;
+            else
+                high=mid-1;
+        }
+        return low;
+    }
+};
