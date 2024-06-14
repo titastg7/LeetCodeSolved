@@ -1,0 +1,31 @@
+397. Integer Replacement
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef long long ll;
+    ll find(ll n, unordered_map<ll,ll>*memo)
+    {
+        if(n==0 || n==1)
+            return 0;
+
+        if(memo->find(n)!=memo->end())
+            return (*memo)[n];
+        int res;
+        if(n%2==0)
+            (*memo)[n] = 1+find(n/2,memo);
+        else
+            (*memo)[n] = 1+min(find(n-1,memo),find(n+1,memo));
+
+        return (*memo)[n];
+    }
+    int integerReplacement(int n) 
+    {
+        unordered_map<ll,ll> memo;
+        return find((ll)n,&memo); 
+        
+    }
+};
