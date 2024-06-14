@@ -1,0 +1,68 @@
+840. Magic Squares In Grid
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool isMagic(vector<vector<int>>& grid, int startI, int startJ)
+    {
+        int m=grid.size(),n=grid[0].size(), i,j;
+        int sum=0;
+        unordered_set<int> visited;
+
+        for(i=startI;i<startI+3;i++)
+        {
+            for(j=startJ;j<startJ+3;j++)
+            {
+                if(visited.find(grid[i][j])!=visited.end())
+                    return 0;
+                visited.insert(grid[i][j]);
+            }
+        }
+        
+        for(i=1;i<10;i++)
+        {
+            if(visited.find(i)==visited.end())
+                return 0;
+        }
+        int rowSum=0, colSum=0, row,col;
+        sum = grid[startI][startJ] + grid[startI+1][startJ] + grid[startI+2][startJ];
+        
+        for(row=0;row<3;row++)
+        {
+            rowSum=0;
+            colSum=0;
+            for(col=0;col<3;col++)
+            {
+                rowSum += grid[startI+row][startJ+col];
+                colSum +=grid[startI+col][startJ+row];
+            }
+            if(sum!=rowSum || sum!=colSum)
+                return 0;
+        }
+
+        int diag1 = grid[startI][startJ] + grid[startI+1][startJ+1] + grid[startI+2][startJ+2];
+        int diag2 = grid[startI+2][startJ]+grid[startI+1][startJ+1]+grid[startI][startJ+2];
+        if(diag1!=sum || diag2!=sum)
+            return 0;
+        return 1;
+        
+    }
+    
+    int numMagicSquaresInside(vector<vector<int>>& grid) 
+    {
+        int res=0, i,j,m=grid.size(),n=grid[0].size();
+        
+        for(i=0;i<m-2;i++)
+        {
+            for(j=0;j<n-2;j++)
+            {
+                if(isMagic(grid,i,j))
+                    res++;
+            }
+        }
+        return res;
+    }
+};
