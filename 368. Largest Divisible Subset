@@ -1,0 +1,43 @@
+368. Largest Divisible Subset
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    vector<int> largestDivisibleSubset(vector<int>& nums) 
+    {
+        vector<int> res;
+        int i,n=nums.size(), ind=0,maxLength=0,j;
+        sort(nums.begin(),nums.end());
+        vector<int> memo(n,1);
+        vector<int> prev(n,-1);
+        for(i=1;i<n;i++)
+        {
+            for(j=0;j<i;j++)
+            {
+                if(nums[i]%nums[j]==0)
+                {
+                    if(memo[i]< 1+memo[j])
+                    {
+                        memo[i] = 1+memo[j];
+                        prev[i] =j;
+                    }
+                }
+            }
+            if(maxLength < memo[i])
+            {
+                maxLength=memo[i];
+                ind=i;
+            }
+        }
+        while(ind>=0)
+        {
+            res.push_back(nums[ind]);
+            ind= prev[ind];
+        }
+        reverse(res.begin(),res.end());
+        return res;
+    }
+};
