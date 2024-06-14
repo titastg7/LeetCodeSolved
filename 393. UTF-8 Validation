@@ -1,0 +1,41 @@
+393. UTF-8 Validation
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool validUtf8(vector<int>& data) 
+    {
+        int i,n=data.size(), numBytes=0;
+        int msb= 1<<7, secondmsb = 1<<6;
+        
+        for(i=0;i<n;i++)
+        {
+            if(numBytes == 0)
+            {
+                int mask = 1<<7;
+                while((mask & data[i])!=0)
+                {
+                    numBytes++;
+                    mask = mask >>1;
+                }
+                if(numBytes==0)
+                {
+                    continue;
+                }
+                
+                if(numBytes>4 || numBytes == 1)
+                    return 0;  
+            }
+            else
+            {
+                if(!( (data[i]& msb) !=0 && (secondmsb & data[i])==0))
+                    return 0;
+            }
+            numBytes--;
+        }
+        return numBytes==0;
+    }
+};
