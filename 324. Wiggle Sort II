@@ -1,0 +1,25 @@
+324. Wiggle Sort II
+
+
+C++ Code
+----------------------------------
+class Solution {
+public:
+    void wiggleSort(vector<int>& nums) 
+    {
+        int i,n=nums.size();
+        priority_queue<int> maxHeap(nums.begin(),nums.end());
+        
+        for(i=1;i<n;i+=2)
+        {
+            nums[i] = maxHeap.top();
+            maxHeap.pop();
+        }
+        for(i=0;i<n;i+=2)
+        {
+            nums[i] = maxHeap.top();
+            maxHeap.pop();
+        }
+        return;
+    }
+};
