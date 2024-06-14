@@ -1,0 +1,74 @@
+1268. Search Suggestions System
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    class Trie
+    {
+        public:
+        vector<Trie*> children{vector<Trie *>(26, NULL)};
+        
+        bool isEnd=0;
+        
+        void insert(string s)
+        {
+            Trie* node = this;
+            for(char ch : s)
+            {
+                if(node->children[ch-'a']==NULL)
+                {
+                    Trie* newNode = new Trie();
+                    node->children[ch-'a']=newNode;
+                }
+                node=node->children[ch-'a'];
+            }
+            node->isEnd=1;
+        }
+        vector<string> search(string s)
+        {
+            Trie* node = this;
+            vector<string> res;
+            for(char ch : s)
+            {
+                if(node->children[ch-'a']==NULL)
+                    return res;
+                node=node->children[ch-'a'];
+            }
+            dfs(node,s,&res);
+            return res;
+        }
+        void dfs(Trie* cur, string word, vector<string>*res)
+        {
+            if(res->size()==3)
+                return;
+            if(cur->isEnd)
+                res->push_back(word);
+            for(int i=0;i<26;i++)
+            {
+                if(cur->children[i])
+                {
+                    word +=('a'+i);
+                    dfs(cur->children[i],word,res);
+                    word.pop_back();
+                }
+            }
+        }
+    };
+    vector<vector<string>> suggestedProducts(vector<string>& products, string searchWord)
+    {
+        vector<vector<string>> res;
+        Trie* trieNode = new Trie();
+        for(string prod : products)
+            trieNode->insert(prod);
+        string prefix="";
+        for(char ch: searchWord)
+        {
+            prefix +=ch;
+            res.push_back(trieNode->search(prefix));
+        }
+        return res;
+    }
+};
