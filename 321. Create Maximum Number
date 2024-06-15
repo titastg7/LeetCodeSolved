@@ -1,0 +1,107 @@
+321. Create Maximum Number
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    
+    void removeK(vector<int> &num, vector<int>*arr, int k)
+    {
+        stack<int> counter;
+        int i, n=num.size();
+        for(i=0;i<n;i++)
+        {
+            while(!counter.empty() && counter.top()<num[i] && k>0)
+            {
+                counter.pop();
+                k--;
+            }
+            counter.push(num[i]);
+            
+        }
+        while(!counter.empty() && k>0)
+        {
+            counter.pop();
+            k--;
+        }
+        while(!counter.empty())
+        {
+            arr->push_back(counter.top());
+            counter.pop();
+        }
+        reverse(arr->begin(), arr->end());
+        return;
+    }
+    bool compare(int ind1, int ind2, vector<int>& arr1, vector<int>&arr2)
+    {
+        int m=arr1.size(), n=arr2.size();
+        while(ind1<m && ind2<n && arr1[ind1]== arr2[ind2])
+        {
+            ind1++;
+            ind2++;
+        }
+        if(ind2==n)
+            return 1;
+        if(ind1==m)
+            return 0;
+        return arr1[ind1]>arr2[ind2];
+    }
+    vector<int> merge(vector<int> &arr1, vector<int>&arr2)
+    {
+        int i=0,j=0,m=arr1.size(), n=arr2.size();
+        vector<int> finalArr(m+n);
+        while(i<m && j<n)
+        {
+            if(compare(i,j,arr1,arr2))
+            {
+                finalArr[i+j]=arr1[i];
+                i++;
+            }
+            else
+            {
+                finalArr[i+j] = arr2[j];
+                j++;
+            }
+        }
+        
+        while(i<m)
+        {
+            finalArr[i+j]=arr1[i];
+                i++;
+        }
+        while(j<n)
+        {
+            finalArr[i+j] = arr2[j];
+            j++;
+        }
+        return finalArr;   
+    }
+    
+    void print(vector<int> &arr1, vector<int> &arr2)
+    {
+        //cout<<" \nT8.1  ";
+        for(auto n : arr1)
+            cout<<n<<" ";
+        //cout<<"\nT8.5  ";
+        for(auto n : arr2)
+            cout<<n<<" ";
+    }
+    vector<int> maxNumber(vector<int>& nums1, vector<int>& nums2, int k) 
+    {
+        vector<int> res(k,0);
+        
+        int i,j,m=nums1.size(),n=nums2.size();
+        for(i=max(0,k-n);i<=min(k,m);i++)
+        {
+            vector<int> arr1 , arr2;
+            removeK(nums1,&arr1,m-i);
+            removeK(nums2,&arr2,n-k+i);
+            vector<int> finalArr = merge(arr1,arr2);
+
+            res = compare(0,0,res,finalArr)?res:finalArr;
+        }
+        return res;
+    }
+};
