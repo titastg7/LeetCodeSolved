@@ -1,0 +1,37 @@
+714. Best Time to Buy and Sell Stock with Transaction Fee
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef long long ll;
+    ll find(vector<int>&prices, int ind, int n, int canSell, int fee, vector<vector<ll>>*memo)
+    {
+        if(ind>=n)
+            return 0;
+        if((*memo)[ind][canSell]!=-1)
+            return (*memo)[ind][canSell];
+        ll taken;
+        ll skip = find(prices,ind+1,n,canSell,fee, memo);
+        
+        if(canSell==0)
+        {
+           taken = -prices[ind] + find(prices,ind+1,n,1,fee, memo);
+        }
+        else
+        {
+            taken = prices[ind]-fee + find(prices,ind+1,n,0,fee, memo);
+        }
+        
+        (*memo)[ind][canSell] = max(skip,taken);
+        return (*memo)[ind][canSell];
+    }
+    int maxProfit(vector<int>& prices, int fee) 
+    {
+        int n=prices.size();
+        vector<vector<ll>>memo(n, vector<ll>(2,-1));
+        return find(prices,0,n,0,fee, &memo);
+    }
+};
