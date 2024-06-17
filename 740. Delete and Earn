@@ -1,0 +1,43 @@
+740. Delete and Earn
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int find(vector<pair<int,int>> &arr, int ind, vector<int>*memo)
+    {
+        if(ind<0)
+            return 0;
+        if((*memo)[ind]!=-1)
+            return (*memo)[ind];
+        
+        // not taken
+        int notTaken = find(arr,ind-1,memo);
+        
+        // taken
+        int taken = 0;
+        if(ind>0 && arr[ind].first-1 == arr[ind-1].first)
+            taken = arr[ind].first*arr[ind].second + find(arr,ind-2,memo);
+        else
+            taken = arr[ind].first*arr[ind].second + notTaken;
+        (*memo)[ind] = max(taken,notTaken);
+        return (*memo)[ind];
+    }
+    int deleteAndEarn(vector<int>& nums) 
+    {
+        int n=nums.size(),i;
+        map<int,int> counter;
+        for(i=0;i<n;i++)
+            counter[nums[i]]++;
+        
+        vector<pair<int,int> > arr;
+        for(auto it: counter)
+            arr.push_back({it.first,it.second});
+        
+        n=arr.size();
+        vector<int> memo(n,-1);
+        return find(arr,n-1,&memo);
+    }
+};
