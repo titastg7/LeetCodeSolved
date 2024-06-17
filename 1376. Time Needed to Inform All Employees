@@ -1,0 +1,29 @@
+1376. Time Needed to Inform All Employees
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int maxMins(int empId, unordered_map<int,vector<int>> &subs, vector<int> &time)
+    {
+        int curTime =0;
+        for(auto emp: subs[empId])
+        {
+             curTime = max(curTime, time[empId]+maxMins(emp,subs,time));
+        }
+        return curTime;
+    }
+    int numOfMinutes(int n, int headID, vector<int>& manager, vector<int>& informTime) 
+    {
+        unordered_map<int,vector<int>> subordinates;
+        int i;
+        for(i=0;i<n;i++)
+        {
+            subordinates[manager[i]].push_back(i);
+        }
+        
+        return maxMins(headID,subordinates, informTime);
+    }
+};
