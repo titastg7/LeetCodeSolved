@@ -1,0 +1,62 @@
+843. Guess the Word
+
+
+C++ Code
+----------------------------------
+
+/**
+ * // This is the Master's API interface.
+ * // You should not implement it, or speculate about its implementation
+ * class Master {
+ *   public:
+ *     int guess(string word);
+ * };
+ */
+class Solution {
+public:
+    typedef pair<int,int> ii;
+    
+    int getMatched(string &a, string &b)
+    {
+        int i=0,count=0;
+        while(i<6 )
+        {
+            if(a[i]==b[i])
+                count++;
+            i++;
+        }
+        return count;
+    }
+    void findSecretWord(vector<string>& words, Master& master) 
+    {
+        srand(time(0));
+        int i,j, n=words.size(), matched;
+        vector<vector<int>> counter(n,vector<int>(n,0));
+        vector<string> options, temp;
+        
+        for(i=0;i<n;i++)
+        {
+            options.push_back(words[i]);
+        }
+        
+        while(!options.empty())
+        {
+            int ind = (rand()%options.size());
+            //cout<<"\nT1 "<<ind<<" w = "<<words[ind]<<" ";
+            matched = master.guess(options[ind]);
+            //cout<<"  T2 "<<matched<<" ";
+            if(matched==6)
+                return;
+            temp.clear();
+            for(i=0;i<options.size();i++)
+            {
+                if(options[ind]!=options[i] && getMatched(options[ind], options[i]) ==matched)
+                    temp.push_back(options[i]);
+            } 
+            
+            options.clear();
+            options = temp;
+        }
+        return;
+    }
+};
