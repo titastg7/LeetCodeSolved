@@ -1,0 +1,38 @@
+2130. Maximum Twin Sum of a Linked List
+
+
+C++ Code
+----------------------------------
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    int res;
+    ListNode* p;
+    void find(ListNode* q)
+    {
+        if(q==NULL)
+            return;
+        find(q->next);
+        res = max(res, p->val+q->val);
+        p=p->next;
+        return;
+    }
+    int pairSum(ListNode* head) 
+    {
+        res=0;
+        p=head;
+        ListNode*q=head;
+        find(q);
+        return res;
+    }
+};
