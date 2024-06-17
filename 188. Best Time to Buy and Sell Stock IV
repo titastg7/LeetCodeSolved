@@ -1,0 +1,40 @@
+188. Best Time to Buy and Sell Stock IV
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    
+    typedef long long ll;
+    
+    ll find(vector<int>&prices, int ind, int n, int canSell, int transCount, vector<vector<vector<ll>>> *memo)
+    {
+        if(ind>=n || transCount<0)
+            return 0;
+        if((*memo)[ind][canSell][transCount]!=-1)
+            return (*memo)[ind][canSell][transCount];
+        
+        // not taken
+        ll notTaken = find(prices, ind+1,n,canSell, transCount,memo);
+        
+        // taken
+        ll taken=0;
+        if(canSell)
+        {
+            taken = +prices[ind] + find(prices,ind+1,n,0,transCount-1,memo);
+        }
+        else
+            taken = -prices[ind] + find(prices,ind+1,n,1,transCount,memo);
+        
+        (*memo)[ind][canSell][transCount] = max(taken,notTaken);
+        return (*memo)[ind][canSell][transCount];
+    }
+    int maxProfit(int k, vector<int>& prices) 
+    {
+        int n=prices.size();
+        vector<vector<vector<ll>>> memo(n,vector<vector<ll>>(2,vector<ll>(k,-1)));
+        return find(prices,0,n, 0,k-1, &memo);
+    }
+};
