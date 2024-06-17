@@ -1,0 +1,62 @@
+51. N-Queens
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool canPlace(vector<int>&pos, int row, int col)
+    {
+        int i,n=pos.size();
+        for(i=0;i<n;i++)
+        {
+            if(pos[i]==col || abs(row-i)==abs(pos[i]-col))
+                return 0;
+        }
+        return 1;
+    }
+    void find(int n, int row, vector<int>&pos, vector<vector<string>>*res)
+    {
+        if(row==n)
+        {
+            int i,j;
+            vector<string> chessboard;
+            for(i=0;i<n;i++)
+            {
+                string rowWise;
+                for(j=0;j<n;j++)
+                {
+                    if(pos[i]==j)
+                        rowWise +='Q';
+                    else
+                        rowWise +='.';
+                }
+                chessboard.push_back(rowWise);
+            }
+            res->push_back(chessboard);
+            return;
+        }
+        
+        int col;
+        for(col=0;col<n;col++)
+        {
+            if(canPlace(pos,row,col))
+            {
+                pos.push_back(col);
+                find(n,row+1,pos,res);
+                pos.pop_back();
+            }
+        }
+        return;
+    }
+    vector<vector<string>> solveNQueens(int n) 
+    {
+        vector<vector<string>> res;
+        vector<int> pos;
+        if(n==0)
+            return res;
+        find(n,0,pos,&res);
+        return res;
+    }
+};
