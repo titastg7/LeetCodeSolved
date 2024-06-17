@@ -1,0 +1,39 @@
+502. IPO
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int findMaximizedCapital(int k, int w, vector<int>& profits, vector<int>& capital) 
+    {
+
+        int i,n=profits.size();
+        
+        priority_queue<int> profitQ;
+        priority_queue< pair<int,int>,vector<pair<int,int>>, greater<pair<int,int>>> minCapacity;
+        
+        for(i=0;i<n;i++)
+        {
+            if(capital[i]<=w)
+                profitQ.push(profits[i]);
+            else
+                minCapacity.push({capital[i],profits[i]});
+        }
+        
+        while(k--)
+        {
+            while(!minCapacity.empty() && minCapacity.top().first<=w)
+            {
+                profitQ.push(minCapacity.top().second);
+                minCapacity.pop();
+            }
+            if(profitQ.empty())
+                break;
+            w +=profitQ.top();
+            profitQ.pop();
+        }
+        return w;
+    }
+};
