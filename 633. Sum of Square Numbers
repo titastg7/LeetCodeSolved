@@ -1,0 +1,27 @@
+633. Sum of Square Numbers
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool judgeSquareSum(int c) 
+    {
+        unordered_set<int> squares;
+        if(c<2)
+            return 1;
+        int i;
+        for(i=0;i<=sqrt(c);i++)
+        {
+            squares.insert(i*i);
+        }
+        
+        for(auto it: squares)
+        {
+            if(squares.find(c-it)!=squares.end())
+                return 1;
+        }
+        return 0;
+    }
+};
