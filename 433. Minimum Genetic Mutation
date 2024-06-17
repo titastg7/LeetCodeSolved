@@ -1,0 +1,51 @@
+433. Minimum Genetic Mutation
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int minMutation(string startGene, string endGene, vector<string>& bank) 
+    {
+        int n=bank.size(), count=0,i,j;
+        unordered_set<string> genes(bank.begin(),bank.end());
+        if(genes.find(endGene)==genes.end())
+            return -1;
+        
+        queue<string> level;
+        level.push(startGene);
+        vector<char> choice = {'A','C', 'G', 'T'};
+        
+        while(!level.empty())
+        {
+            int size =level.size();
+            while(size--)
+            {
+                string top = level.front();            
+                level.pop();
+                for(i=0;i<8;i++)
+                {
+                    char ch = top[i];
+                    for(char c : choice)
+                    {
+                        if(c!=ch)
+                        {
+                            top[i]=c;
+                            if(top==endGene)
+                                return count+1;
+                            if(genes.find(top)!=genes.end())
+                            {
+                                genes.erase(top);
+                                level.push(top);
+                            }
+                        }
+                    }
+                    top[i]=ch;
+                } 
+            }
+            count++;
+        }
+        return -1;
+    }
+};
