@@ -1,0 +1,39 @@
+1011. Capacity To Ship Packages Within D Days
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int shipWithinDays(vector<int>& weights, int days) {
+        int sum=0,i,n=weights.size(),low=0,high,mid;
+        for(i=0;i<n;i++)
+        {
+            sum +=weights[i];
+            low =max(low,weights[i]);
+        }
+        high=sum;
+        while(low<=high)
+        {
+            mid = low +(high-low)/2;
+            int rday=1, w=0;
+            for(i=0;i<n;i++)
+            {
+                if(w+weights[i]>mid)
+                {
+                    rday++;
+                    w=weights[i];
+                }
+                else
+                   w+= weights[i];
+            }
+            if(rday<=days)
+                high=mid-1;
+            else
+                low=mid+1;
+
+        }
+        return low;
+    }
+};
