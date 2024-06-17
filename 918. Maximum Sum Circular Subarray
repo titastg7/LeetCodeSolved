@@ -1,0 +1,29 @@
+918. Maximum Sum Circular Subarray
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef long long ll;
+    int maxSubarraySumCircular(vector<int>& nums) 
+    {
+        ll i,n=nums.size(),sum=0, maxSum=INT_MIN, minSum=INT_MAX;
+        ll curMax=0, curMin=0;
+        for(i=0;i<n;i++)
+        {
+            sum +=nums[i];
+            curMax = max(curMax+nums[i], (ll)nums[i]);
+            maxSum = max(maxSum,curMax);
+            
+            curMin = min(curMin+nums[i], (ll)nums[i]);
+            minSum = min(minSum,curMin);                        
+        }
+        
+        if(sum==minSum)
+            return maxSum;
+        maxSum = max(maxSum, sum-minSum);
+        return maxSum;
+    }
+};
