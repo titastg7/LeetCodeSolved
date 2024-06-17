@@ -1,0 +1,33 @@
+646. Maximum Length of Pair Chain
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef pair<int,int> ii;
+       
+    int findLongestChain(vector<vector<int>>& pairs) 
+    {
+        int i,n=pairs.size(),j;
+        if(n<2)
+            return n;
+        vector<ii> intervals(n);
+        for(i=0;i<n;i++)
+            intervals[i] = {pairs[i][0],pairs[i][1]};
+        
+        vector<int> memo(n,1);
+        
+        sort(intervals.begin(),intervals.end());
+        for(i=1;i<n;i++)
+        {
+            for(j=0;j<i;j++)
+            {
+                if(intervals[j].second<intervals[i].first)
+                    memo[i] = max(memo[i], 1+memo[j]);
+            }
+        }
+        return memo[n-1];
+    }
+};
