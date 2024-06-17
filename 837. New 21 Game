@@ -1,0 +1,33 @@
+837. New 21 Game
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    double new21Game(int n, int k, int maxPts) 
+    {
+        if(k==0 || n>k+maxPts)
+            return 1.0;
+        
+        vector<double> memo(n+1,0);
+        
+        int i;
+        double res=0, sum=1;
+        memo[0]=1.0;
+        for(i=1;i<=n;i++)
+        {
+            memo[i] = sum/maxPts;
+            
+            if(i<k)
+                sum +=memo[i];
+            else
+                res +=memo[i];
+            
+            if(i>=maxPts)
+                sum -= memo[i-maxPts];
+        }
+        return res;
+    }
+};
