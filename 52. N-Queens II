@@ -1,0 +1,45 @@
+52. N-Queens II
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+     bool canPlace(vector<int>&pos, int row, int col)
+    {
+        int i,n=pos.size();
+        for(i=0;i<n;i++)
+        {
+            if(pos[i]==col || abs(row-i)==abs(pos[i]-col))
+                return 0;
+        }
+        return 1;
+    }
+    int find(int n, int row, vector<int>&pos)
+    {
+        if(row==n)
+        {
+            return 1;
+        }
+        
+        int col,count=0;
+        for(col=0;col<n;col++)
+        {
+            if(canPlace(pos,row,col))
+            {
+                pos.push_back(col);
+                count += find(n,row+1,pos);
+                pos.pop_back();
+            }
+        }
+        return count;
+    }
+    int totalNQueens(int n) 
+    {
+        vector<int> pos;
+        if(n<2)
+            return n;
+        return find(n,0,pos);
+    }
+};
