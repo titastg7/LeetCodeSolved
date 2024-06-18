@@ -1,0 +1,40 @@
+860. Lemonade Change
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool lemonadeChange(vector<int>& bills) 
+    {
+        int i,n=bills.size(), fiveBill=0, tenBill=0;
+        for(i=0;i<n;i++)
+        {
+            if(bills[i]==5)
+                fiveBill++;
+            else if(bills[i]==10)
+            {
+                fiveBill--;
+                if(fiveBill<0)
+                    return 0;
+                tenBill++;
+            }
+            else
+            {
+                if(fiveBill>0 && tenBill>0)
+                {
+                    fiveBill--;
+                    tenBill--;
+                }
+                else
+                {
+                    fiveBill -=3;
+                    if(fiveBill<0)
+                        return 0;
+                }
+            }
+        }
+        return 1;
+    }
+};
