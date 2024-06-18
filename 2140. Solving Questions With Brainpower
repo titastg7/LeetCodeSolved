@@ -1,0 +1,30 @@
+2140. Solving Questions With Brainpower
+
+
+C++ Code
+----------------------------------
+class Solution {
+public:
+    typedef long long ll;
+    ll findPoints(vector<vector<int>>&ques, int ind, int n, vector<ll>*memo)
+    {
+        if(ind>=n)
+            return 0;
+        if((*memo)[ind]!=-1)
+            return (*memo)[ind];
+        
+        // skip
+        ll skip = findPoints(ques,ind+1,n, memo);
+        
+        // take
+        ll taken = ques[ind][0] + findPoints(ques,ind+ques[ind][1]+1,n,memo);
+        (*memo)[ind] = max(skip,taken);
+        return (*memo)[ind];
+    }
+    long long mostPoints(vector<vector<int>>& questions)
+    {
+        int n=questions.size();
+        vector<ll> memo(n,-1);
+        return findPoints(questions,0,n,&memo);
+    }
+};
