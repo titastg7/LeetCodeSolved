@@ -1,0 +1,22 @@
+1822. Sign of the Product of an Array
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int arraySign(vector<int>& nums) 
+    {
+        long long prod=1, i,n=nums.size();
+        for(i=0;i<n;i++)
+        {
+            if(nums[i]==0)
+                return 0;
+            if(nums[i]<0)
+                prod *=-1;
+        }
+
+        return prod;
+    }
+};
