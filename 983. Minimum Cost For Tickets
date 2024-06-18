@@ -1,0 +1,35 @@
+983. Minimum Cost For Tickets
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    
+    int findCost(vector<int>&days, vector<int>&costs, int curDay, vector<int>*memo, unordered_set<int> travelDays)
+    {
+        if(curDay > days[days.size()-1])
+            return 0;
+        if((*memo)[curDay]!=-1)
+            return (*memo)[curDay];
+        if(travelDays.find(curDay)==travelDays.end())
+            (*memo)[curDay] = findCost(days,costs,curDay+1,memo,travelDays);
+        else
+        {
+            int oneDay = costs[0] + findCost(days,costs,curDay+1,memo,travelDays);
+            int sevenDay = costs[1] + findCost(days,costs,curDay+7,memo,travelDays);
+            int thirtyDay = costs[2] + findCost(days,costs,curDay+30,memo,travelDays);
+            (*memo)[curDay] = min(oneDay,min(sevenDay,thirtyDay));
+        }
+        return (*memo)[curDay];
+    }
+    int mincostTickets(vector<int>& days, vector<int>& costs) 
+    {
+        int m=days.size();
+        vector<int> memo(days[m-1]+1,-1);
+        unordered_set<int> traveldates(days.begin(),days.end());
+        return findCost(days,costs,1, &memo,traveldates);
+        
+    }
+};
