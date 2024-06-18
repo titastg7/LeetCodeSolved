@@ -1,0 +1,21 @@
+1672. Richest Customer Wealth
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int maximumWealth(vector<vector<int>>& accounts) 
+    {
+        int i,m=accounts.size(),j, res=0, n=accounts[0].size(),sum;
+        for(i=0;i<m;i++)
+        {
+            sum=0;
+            for(j=0;j<n;j++)
+                sum +=accounts[i][j];
+            res=max(res,sum);
+        }
+        return res;
+    }
+};
