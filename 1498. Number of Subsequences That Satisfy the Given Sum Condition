@@ -1,0 +1,42 @@
+1498. Number of Subsequences That Satisfy the Given Sum Condition
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    #define mod 1000000007
+    typedef long long ll;
+    ll getCount(int exp)
+    {
+        ll result = 1,base=2;
+        while (exp > 0) 
+        {
+            if (exp % 2 == 1) 
+            {
+                result = (result * base) % mod;
+            }
+            base = (base * base) % mod;
+            exp /= 2;
+        }
+        return result;
+    }
+    int numSubseq(vector<int>& nums, int target)
+    {
+        ll i=0,j, n=nums.size(), res=0;
+        sort(nums.begin(),nums.end());
+        j=n-1;
+        while(i<=j)
+        {
+            if(nums[i]+nums[j]<=target)
+            {
+                res = (res+getCount(j-i))% mod;
+                i++;
+            }
+            else
+                j--;
+        }
+        return res;
+    }
+};
