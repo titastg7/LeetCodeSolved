@@ -1,0 +1,36 @@
+2466. Count Ways To Build Good Strings
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    #define mod 1000000007
+   
+    int find(int ind, int zero, int one,vector<int>*memo)
+    {
+        if(ind==0)
+            return 1;
+        if((*memo)[ind]!=-1)
+            return (*memo)[ind];
+        int count=0;
+        if(ind>=zero)
+            count +=find(ind-zero,zero,one,memo);
+        if(ind>=one)
+            count +=find(ind-one,zero,one,memo);
+        (*memo)[ind] = count%mod;
+        return(*memo)[ind];
+    }
+    int countGoodStrings(int low, int high, int zero, int one) 
+    {
+        vector<int>memo(high+1,-1);
+        int i,res=0;
+        for(i=low;i<=high;i++)
+        {
+            res += find(i,zero,one,&memo);
+            res %=mod;
+        }
+        return res;
+    }
+};
