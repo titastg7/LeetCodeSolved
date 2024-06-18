@@ -1,0 +1,28 @@
+62. Unique Paths
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    #define mod 200000000
+    typedef long long ll;
+    int findAll(vector<vector<ll>>*memo, int m, int n)
+    {
+        if(m<0||n<0)
+            return 0;
+        if(m==0 && n==0)
+            return 1;
+        if((*memo)[m][n]!=-1)
+            return (*memo)[m][n];
+        (*memo)[m][n] = (findAll(memo,m-1,n)+findAll(memo,m,n-1));
+        return (*memo)[m][n];
+    }
+    int uniquePaths(int m, int n) {
+        if(m==1 && n==1)
+            return 1;
+        vector<vector<ll>> memo(m,vector<ll>(n,-1));
+        return findAll(&memo,m-1,n-1);
+    }
+};
