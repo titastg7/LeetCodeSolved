@@ -1,0 +1,53 @@
+95. Unique Binary Search Trees II
+
+
+C++ Code
+----------------------------------
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<TreeNode*> findAll(int ind,int n, map<pair<int,int>,vector<TreeNode*>>*memo)
+    {
+        vector<TreeNode*> res;
+        if(ind>n)
+        {
+            res.push_back(NULL);
+            return res;
+        }
+        if(memo->find({ind,n})!=memo->end())
+            return (*memo)[{ind,n}];
+        int i;
+        for(i=ind;i<=n;i++)
+        {
+            vector<TreeNode*> leftS = findAll(ind,i-1,memo);
+            vector<TreeNode*> rightS = findAll(i+1,n,memo);
+            
+            for(auto left:leftS)
+            {
+                for(auto right : rightS)
+                {
+                    TreeNode* root = new TreeNode(i,left,right);
+                    res.push_back(root);
+                }
+            }
+        }
+        (*memo)[{ind,n}] = res;
+        return (*memo)[{ind,n}];
+    }
+    vector<TreeNode*> generateTrees(int n)
+    {
+        map<pair<int,int>,vector<TreeNode*> > memo;
+        return findAll(1,n,&memo);
+    }
+};
