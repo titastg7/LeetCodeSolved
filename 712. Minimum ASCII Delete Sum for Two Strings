@@ -1,0 +1,38 @@
+712. Minimum ASCII Delete Sum for Two Strings
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int minimumDeleteSum(string s1, string s2) 
+    {
+        int i,j,l1=s1.length(),l2=s2.length(),t1,t2,t3;
+        vector<vector<int>>memo(l1+1,vector<int>(l2+1,INT_MAX/2));
+
+        memo[0][0]=0;
+        for(i=1;i<=l1;i++)
+            memo[i][0] = memo[i-1][0]+s1[i-1];
+        
+        for(j=1;j<=l2;j++)
+            memo[0][j] = memo[0][j-1]+s2[j-1];
+        
+
+        for(i=1;i<=l1;i++)
+        {
+            for(j=1;j<=l2;j++)
+            {
+                if(s1[i-1]==s2[j-1])
+                    memo[i][j] = memo[i-1][j-1];
+                else
+                {
+                    t1 = s1[i-1] + memo[i-1][j];      
+                    t2 = s2[j-1] + memo[i][j-1];
+                    memo[i][j] = min(t1,t2);
+                }
+            }
+        }
+        return memo[l1][l2];
+    }
+};
