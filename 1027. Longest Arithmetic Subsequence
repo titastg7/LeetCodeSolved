@@ -1,0 +1,32 @@
+1027. Longest Arithmetic Subsequence
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int longestArithSeqLength(vector<int>& nums) 
+    {
+        int i,j,diff,n=nums.size(),res=2;
+        if(n<=2)
+            return n;
+        vector<unordered_map<int,int> >counter(n);
+        for(i=1;i<n;i++)
+        {
+            for(j=0;j<i;j++)
+            {
+                diff = nums[i]-nums[j];
+                if(counter[j].find(diff)!=counter[j].end())
+                {
+                    counter[i][diff] = 1+counter[j][diff];
+                }
+                else
+                    counter[i][diff]=2;
+                res = max(res, counter[i][diff]);
+            }
+            
+        }
+        return res;
+    }
+};
