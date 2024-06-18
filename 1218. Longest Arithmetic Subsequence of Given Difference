@@ -1,0 +1,24 @@
+1218. Longest Arithmetic Subsequence of Given Difference
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int longestSubsequence(vector<int>& arr, int diff) 
+    {
+        int res=0, i,n=arr.size();
+        unordered_map<int,int> memo;
+        
+        for(i=0;i<n;i++)
+        {
+            if(memo.find(arr[i]-diff)!=memo.end())
+                memo[arr[i]] = 1+ memo[arr[i]-diff];
+            else
+                 memo[arr[i]] = 1;
+            res = max(res, memo[arr[i]]);
+        }
+        return res;
+    }
+};
