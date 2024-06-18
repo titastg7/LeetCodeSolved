@@ -1,0 +1,28 @@
+120. Triangle
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int find(vector<vector<int>>&triangle, int i, int j, int m, map<pair<int,int>,int>*memo)
+    {
+        if(i==m-1)
+            return triangle[i][j];
+        if(memo->find({i,j})!=memo->end())
+            return (*memo)[{i,j}];
+        
+        (*memo)[{i,j}] = triangle[i][j] + min(find(triangle,i+1,j,m,memo), find(triangle,i+1,j+1,m,memo));
+        
+        return (*memo)[{i,j}];
+    }
+    
+    int minimumTotal(vector<vector<int>>& triangle) 
+    {
+        int row=triangle.size();
+        map<pair<int,int>,int> memo;
+        return find(triangle,0,0,row,&memo);
+        
+    }
+};
