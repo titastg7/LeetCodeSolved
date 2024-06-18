@@ -1,0 +1,33 @@
+528. Random Pick with Weight
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef long long ll;
+    vector<ll>  sum;
+    Solution(vector<int>& w) 
+    {
+        int i, n=w.size();
+        sum.resize(n);
+        sum[0]=w[0];
+        for(i=1;i<n;i++)
+            sum[i] = sum[i-1]+w[i];
+        
+    }
+    
+    int pickIndex() 
+    {
+        int randInd = rand()%(sum[sum.size()-1]);
+        int ind = upper_bound(sum.begin(),sum.end(),randInd)-sum.begin();
+        return ind;
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(w);
+ * int param_1 = obj->pickIndex();
+ */
