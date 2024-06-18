@@ -1,0 +1,23 @@
+518. Coin Change II
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+   int change(int amount, vector<int>& coins) 
+    {
+        int n=coins.size(),i,j;
+        vector<int> memo(amount+1,0);
+        memo[0]=1;
+        for(i=0;i<n;i++)
+        {
+            for(j=coins[i];j<=amount;j++)
+            {
+                memo[j] += memo[j-coins[i]];
+            }
+        }
+        return memo[amount];
+    }
+};
