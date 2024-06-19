@@ -1,0 +1,46 @@
+30. Substring with Concatenation of All Words
+
+
+C++ Code
+----------------------------------
+class Solution {
+public:
+    bool ValidSubstr(string sub ,unordered_map<string ,int> wordsStore,int wordLen )
+    {
+        int i;
+        string temp;
+        for( i = 0 ;i <= sub.length() - wordLen ; i+=wordLen)
+        {
+            temp = sub.substr(i,wordLen);
+            if(wordsStore.find(temp) != wordsStore.end())
+            {
+                if(--wordsStore[temp] == -1) 
+                {
+                    return false;
+                }
+            
+            }
+            else 
+                return false;
+        }
+        return true;
+    }
+    
+    vector<int> findSubstring(string s, vector<string>& words) {
+        int len=s.length(),i;
+        int numWord=words.size(), wordLen=words[0].size();
+        int windowLen = numWord*wordLen;
+        
+        vector<int> res;
+        unordered_map<string, int> dict;
+        for(auto e:words)
+            dict[e]++;
+        
+        for(i = 0 ; i <= len - windowLen ; i++){
+            string sub = s.substr(i,windowLen);
+            if(ValidSubstr(sub,dict,wordLen))
+                res.push_back(i);
+        }
+        return res;
+    }
+};
