@@ -1,0 +1,36 @@
+818. Race Car
+
+
+C++ Code
+----------------------------------
+class Solution {
+public:
+    typedef pair<int,int> ii;
+    int racecar(int target) 
+    {
+        int moves,pos,speed;
+        // moves,pos, speed
+        queue<pair<int,ii>> counter;
+        counter.push({0,{0,1}});
+
+        while(!counter.empty())
+        {
+            auto top = counter.front();
+            counter.pop();
+            moves = top.first;
+            pos = top.second.first;
+            speed = top.second.second;
+            if(pos==target)
+                return moves;
+
+            if(abs(pos)>2*target)
+                continue;
+            counter.push({moves+1,{pos+speed,2*speed}});
+
+            if((pos+speed>target && speed>0) || (pos+speed <target && speed<0))
+                counter.push({moves+1,{pos,(speed>0?-1:1)}});
+
+        }
+        return 0;
+    }
+};
