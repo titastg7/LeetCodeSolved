@@ -1,0 +1,61 @@
+1275. Find Winner on a Tic Tac Toe Game
+
+
+C++ Code
+----------------------------------
+class Solution {
+public:
+    
+    bool checkRow(vector<vector<int>>& board, int player)
+    {
+        int i;
+        for(i=0;i<3;i++)
+        {
+            if(board[i][0]==board[i][1] && board[i][1]==board[i][2] && board[i][2]==player)
+                return 1;
+        }
+        return 0;
+    }
+    bool checkDiag(vector<vector<int>>& board, int player)
+    {
+        if(board[0][0]==board[1][1] && board[1][1]==board[2][2] && board[0][0]==player)
+            return 1;
+        int i=0, j=2;
+        while(i<3 && j>=0)
+        {
+            if(board[i][j]!=player)
+                return 0;
+            i++;
+            j--;
+        }
+        return 1;
+    }
+    bool checkCol(vector<vector<int>>& board, int player)
+    {
+        int i;
+        for(i=0;i<3;i++)
+        {
+            if(board[0][i]==board[1][i] && board[1][i]==board[2][i] && board[2][i]==player)
+                return 1;
+        }
+        return 0;
+    }
+    string tictactoe(vector<vector<int>>& moves) 
+    {
+        vector<vector<int>> board(3,vector<int>(3,0));
+        int i,j, n=moves.size();
+        for(i=0;i<n;i++)
+        {
+            if(i%2==0)
+                board[moves[i][0]][moves[i][1]]=1;
+            else
+                board[moves[i][0]][moves[i][1]]=2;
+        }
+        
+        if(checkRow(board,1) || checkCol(board,1) || checkDiag(board,1))
+            return "A";
+        if(checkRow(board,2) || checkCol(board,2) || checkDiag(board,2))
+            return "B";
+        return n==9?"Draw":"Pending";
+    }
+};
