@@ -1,0 +1,54 @@
+1482. Minimum Number of Days to Make m Bouquets
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef long long ll;
+    bool isEnoughDays(vector<int>& bloomDay, ll days, int m, int k)
+    {
+        ll i, count=0, adjacentDays=0,n=bloomDay.size();
+        for(i=0;i<n;i++)
+        {
+            if((ll)bloomDay[i]<=days)
+            {
+                adjacentDays++;
+            }
+            else
+                adjacentDays=0;
+                
+            if(adjacentDays==k)
+            {
+                count++;
+                adjacentDays=0;
+            }
+            
+        }
+        return count>=m;
+    }
+    
+    int minDays(vector<int>& bloomDay, int m, int k) 
+    {
+        ll i,low=LLONG_MAX, high=0, mid, n=bloomDay.size(),res=-1;
+        for(i=0;i<n;i++)
+        {
+            low =min(low,(ll)bloomDay[i]);
+            high = max(high,(ll)bloomDay[i]);
+        }
+
+        while(low<=high)
+        {
+            mid = low+(high-mid)/2;
+            if(isEnoughDays(bloomDay,mid,m,k))
+            {
+                res= mid;
+                high = mid-1;
+            }
+            else
+                low = mid+1;
+        }
+        return res;
+    }
+};
