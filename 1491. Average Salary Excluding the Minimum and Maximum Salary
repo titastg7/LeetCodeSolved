@@ -1,0 +1,21 @@
+1491. Average Salary Excluding the Minimum and Maximum Salary
+
+
+C++ Code
+----------------------------------
+class Solution {
+public:
+    double average(vector<int>& salary) 
+    {
+        int i,n=salary.size(), minSal=INT_MAX,maxSal=0;
+        double res=0,sum=0;
+        for(i=0;i<n;i++)
+        {
+            minSal = min(minSal,salary[i]);
+            maxSal = max(maxSal,salary[i]);
+            sum +=salary[i];
+        }
+        sum -=(maxSal+minSal);
+        return (sum)/(double)(n-2);
+    }
+};
