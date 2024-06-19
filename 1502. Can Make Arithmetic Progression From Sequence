@@ -1,0 +1,19 @@
+1502. Can Make Arithmetic Progression From Sequence
+
+
+C++ Code
+----------------------------------
+class Solution {
+public:
+    bool canMakeArithmeticProgression(vector<int>& arr) 
+    {
+        int i,n=arr.size();
+        sort(arr.begin(),arr.end());
+        for(i=1;i<n-1;i++)
+        {
+            if(arr[i]-arr[i-1]!=arr[i+1]-arr[i])
+                return 0;
+        }
+        return 1;
+    }
+};
