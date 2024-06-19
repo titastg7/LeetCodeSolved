@@ -1,0 +1,42 @@
+682. Baseball Game
+
+
+C++ Code
+----------------------------------
+class Solution {
+public:
+    int calPoints(vector<string>& operations) 
+    {
+        int i, n=operations.size(), res=0, a,b;
+        stack<int> scores;
+        for(i=0;i<n;i++)
+        {
+            if(operations[i]=="+")
+            {
+                b= scores.top();
+                scores.pop();
+                a=scores.top();
+                scores.push(b);
+                scores.push(a+b);
+            }
+            else if(operations[i]=="D")
+            {
+                a= scores.top();
+                scores.push(a*2);
+            }
+            else if(operations[i]=="C")
+                scores.pop();
+            else
+            {
+                a = stoi(operations[i]);
+                scores.push(a);
+            }
+        }
+        while(!scores.empty())
+        {
+            res +=scores.top();
+            scores.pop();
+        }
+        return res;
+    }
+};
