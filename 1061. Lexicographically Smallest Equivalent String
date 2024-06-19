@@ -1,0 +1,50 @@
+1061. Lexicographically Smallest Equivalent String
+
+
+C++ Code
+----------------------------------
+class Solution {
+public:
+    char findParent(char ch,unordered_map<char,char> &parent)
+    {
+        if(parent[ch]!=ch)
+            parent[ch] = findParent(parent[ch],parent);
+        return parent[ch];
+    }
+    
+    void merge(char a, char b, unordered_map<char,char> &parent)
+    {
+        char aParent = findParent(a,parent);
+        char bParent = findParent(b,parent);
+        if(aParent<bParent)
+        {
+            parent[bParent]= aParent;
+        }
+        else
+        {
+            parent[aParent]= bParent;
+        }
+        
+    }
+    string smallestEquivalentString(string s1, string s2, string baseStr) 
+    {
+        int i, n=s2.length(), p=baseStr.length();
+        string res;
+        unordered_map<char,char> parent;
+        
+        for(char ch='a';ch<='z';ch++)
+        {
+            parent[ch]=ch;
+        }
+        
+        for(i=0;i<n;i++)
+        {
+            merge(s1[i],s2[i],parent);
+        }
+        for(i=0;i<p;i++)
+        {
+            res += findParent(baseStr[i],parent);
+        }
+        return res;
+    }
+};
