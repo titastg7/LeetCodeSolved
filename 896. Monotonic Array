@@ -1,0 +1,25 @@
+896. Monotonic Array
+
+
+C++ Code
+----------------------------------
+class Solution {
+public:
+    bool isMonotonic(vector<int>& nums) 
+    {
+        int i,n=nums.size(), up=1, down=1;
+        for(i=1;i<n;i++)
+        {
+            if(nums[i-1]<nums[i])
+                up++;
+            else if (nums[i-1]>nums[i])
+                down++;
+            else
+            {
+                up++;
+                down++;
+            }
+        }
+       return (up==n || down ==n);
+    }
+};
