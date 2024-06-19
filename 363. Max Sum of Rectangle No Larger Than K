@@ -1,0 +1,37 @@
+363. Max Sum of Rectangle No Larger Than K
+
+
+C++ Code
+----------------------------------
+class Solution {
+public:
+    int maxSumSubmatrix(vector<vector<int>>& matrix, int k)
+    {
+        int m=matrix.size(),n=matrix[0].size(),i,j,res=INT_MIN,p,q;
+        vector<vector<int>>memo(m+1,vector<int>(n,0));
+        
+        for(i=0;i<m;i++)
+        {
+            for(j=0;j<n;j++)
+                memo[i+1][j] = memo[i][j]+matrix[i][j];
+        }
+        
+        for(i=0;i<m;i++)
+        {
+            for(p=i+1;p<=m;p++)
+            {
+                for(j=0;j<n;j++)
+                {
+                    int sum=0;
+                    for(q=j;q<n;q++)
+                    {
+                        sum += memo[p][q]-memo[i][q];
+                        if(sum<=k)
+                            res = max(res,sum);
+                    }
+                }
+            }
+        }
+        return res;
+    }
+};
