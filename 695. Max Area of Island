@@ -1,0 +1,51 @@
+695. Max Area of Island
+
+
+C++ Code
+----------------------------------
+class Solution {
+public:
+    typedef pair<int,int> ii;
+    vector<int> cr={0,0,1,-1};
+    vector<int> cc={-1,1, 0,0};
+
+    bool valid(int x, int y, int m, int n)   
+    {
+        if(x<0||y<0||x>=m||y>=n)
+            return 0;
+        return 1;
+    }
+
+    int dfs(vector<vector<int>> &board, int i, int j, int m, int n)
+    {
+        board[i][j]=2;
+        int k,x,y,count=1;
+        for(k=0;k<4;k++)
+        {
+            x = i+cr[k];
+            y = j+cc[k];
+            if(valid(x,y,m,n) && board[x][y]==1)
+                count +=dfs(board,x,y,m,n);
+        }
+        return count;
+    }
+    
+    int maxAreaOfIsland(vector<vector<int>>& grid) 
+    {
+        int i,j,m=grid.size(),n=grid[0].size(),res=0;
+
+        for(i=0;i<m;i++)
+        {
+            for(j=0;j<n;j++)
+            {
+                if(grid[i][j]==1)
+                {
+                    
+                    int count = dfs(grid,i,j,m,n);
+                    res=max(res,count);
+                }
+            }
+        }
+        return res;
+    }
+};
