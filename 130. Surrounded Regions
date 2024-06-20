@@ -8,61 +8,45 @@ class Solution {
 public:
     typedef pair<int,int> ii;
     vector<int> cr={0,0,1,-1};
-    vector<int> cc={1,-1,0,0};
-    bool check(int i, int j, int m, int n)
+    vector<int> cc={-1,1, 0,0};
+    
+    bool valid(int x, int y, int m, int n)   
     {
-        if(i<0||j<0||i>=m||j>=n)
+        if(x<0||y<0||x>=m||y>=n)
             return 0;
         return 1;
     }
-    void solve(vector<vector<char>>& board)
+    
+    void dfs(vector<vector<char>> &board, int i, int j, int m, int n)
     {
-        int m=board.size(),n=board[0].size(),i,j,k;
+        board[i][j]='p';
+        int k,x,y;
+        for(k=0;k<4;k++)
+        {
+            x = i+cr[k];
+            y = j+cc[k];
+            if(valid(x,y,m,n) && board[x][y]=='O')
+                dfs(board,x,y,m,n);
+        }
+    }
+    
+    void solve(vector<vector<char>>& board) {
+        int i,j,m=board.size(),n=board[0].size(),x,y;
         
-        queue<ii> level;
         for(i=0;i<m;i++)
         {
             if(board[i][0]=='O')
-            {
-                level.push({i,0});
-                board[i][0]='Y';
-            }
+                dfs(board,i,0,m,n);
             if(board[i][n-1]=='O')
-            {
-                level.push({i,n-1});
-                board[i][n-1]='Y';
-            }
+                dfs(board,i,n-1,m,n);
         }
         
         for(j=0;j<n;j++)
         {
             if(board[0][j]=='O')
-            {
-                level.push({0,j});
-                board[0][j]='Y';
-            }
+                dfs(board,0,j,m,n);
             if(board[m-1][j]=='O')
-            {
-                level.push({m-1,j});
-                board[m-1][j]='Y';
-            }
-        }
-        
-        while(!level.empty())
-        {
-            ii top = level.front();
-            level.pop();
-            for(k=0;k<4;k++)
-            {
-                i = cr[k]+top.first;
-                j = cc[k]+top.second;
-                
-                if(check(i,j,m,n) && board[i][j]=='O')
-                {
-                    level.push({i,j});
-                    board[i][j] ='Y';
-                }
-            }
+                dfs(board,m-1,j,m,n);
         }
         
         for(i=0;i<m;i++)
@@ -71,14 +55,7 @@ public:
             {
                 if(board[i][j]=='O')
                     board[i][j]='X';
-            }
-        }
-        
-        for(i=0;i<m;i++)
-        {
-            for(j=0;j<n;j++)
-            {
-                if(board[i][j]=='Y')
+                else if(board[i][j]=='p')
                     board[i][j]='O';
             }
         }
