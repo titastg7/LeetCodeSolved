@@ -1,0 +1,45 @@
+839. Similar String Groups
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool isSimilar(string a, string b)
+    {
+        int i,n=a.length(), count=0;
+        for(i=0;i<n;i++)
+        {
+            if(a[i]!=b[i])
+                count++;
+            if(count>2)
+                return 0;
+        }
+        return count<=2;
+    }
+    void dfs(vector<string>& strs, int ind, vector<bool>*visited)
+    {
+        (*visited)[ind]=1;
+        int i,n=strs.size();
+        for(i=0;i<n;i++)
+        {
+            if(!(*visited)[i] && (strs[i]==strs[ind] || isSimilar(strs[i],strs[ind])))
+                dfs(strs,i,visited);
+        }
+    }
+    int numSimilarGroups(vector<string>& strs) 
+    {
+        int i,s=strs.size(), res=0,n=strs.size();
+        vector<bool>visited(n,0);
+        for(i=0;i<n;i++)
+        {
+            if(!visited[i])
+            {
+                dfs(strs,i,&visited);
+                res++;
+            }
+        }
+        return res;
+    }
+};
