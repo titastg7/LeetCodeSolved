@@ -1,0 +1,67 @@
+336. Palindrome Pairs
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool isPalindrome(string a)
+    {
+        int i=0, j=a.length()-1;
+        while(i<=j)
+        {
+            if(a[i]!=a[j])
+                return 0;
+            i++; j--;
+        }
+        return 1;
+        
+    }
+    vector<vector<int>> palindromePairs(vector<string>& words) 
+    {
+        vector<vector<int>> res;
+        int i, n=words.size(),flag=-1,j;
+        string temp, left,right;
+        unordered_map<string,int> match;
+        for(i=0;i<n;i++)
+        {
+            if(words[i]=="")
+            {
+                flag=i;
+            }
+            temp = words[i];
+            reverse(temp.begin(),temp.end());
+            match[temp]=i;
+        }
+        vector<int> indices(2);
+        if(flag!=-1)
+        {
+            for(i=0;i<n;i++)
+            {
+                if(flag!=i && isPalindrome(words[i]))
+                {
+                    res.push_back({i,flag});
+                }
+                    
+            }
+        }
+        
+        for(i=0;i<n;i++)
+        {
+            string left, right;
+            for(j=0;j<words[i].size();j++)
+            {
+                left +=words[i][j];
+                right = words[i].substr(j+1);
+
+                if(match.find(left)!=match.end() && match[left]!=i && isPalindrome(right))
+                    res.push_back({i,match[left]});
+                if(match.find(right)!=match.end() && match[right]!=i && isPalindrome(left))
+                    res.push_back({match[right],i});
+            }
+           
+        }
+        return res;
+    }
+};
