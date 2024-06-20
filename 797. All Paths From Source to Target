@@ -1,0 +1,35 @@
+797. All Paths From Source to Target
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    void findAll(vector<vector<int>>& graph, int node, int n, vector<int>path, vector<vector<int>>*res)
+    {
+        if(node==n)
+        {
+            res->push_back(path);
+            return;
+        }
+        
+        int i, size=graph[node].size();
+        for(i=0;i<size;i++)
+        {
+            path.push_back(graph[node][i]);
+            findAll(graph,graph[node][i],n,path,res);
+            path.pop_back();
+        }
+        return;
+    }
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) 
+    {
+        int n=graph.size();
+        vector<vector<int>> res;
+        vector<int> path;
+        path.push_back(0);
+        findAll(graph,0,n-1,path,&res);
+        return res;
+    }
+};
