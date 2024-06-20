@@ -1,0 +1,67 @@
+721. Accounts Merge
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int findParent(vector<int>&parent, int ind)
+    {
+        if(parent[ind]!=ind)
+        {
+            parent[ind]=findParent(parent,parent[ind]);
+        }
+        return parent[ind];
+    }
+    void unionEmail(int u, int v,vector<int>&parent)
+    {
+        int uParent = findParent(parent,u);
+        int vParent = findParent(parent,v);
+        if(uParent==vParent)
+            return;
+        
+        parent[uParent] = vParent;
+
+    }
+    vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) 
+    {
+        vector<vector<string>> res;
+        int i, n=accounts.size(),m,j;
+        vector<int> parent(n);
+
+        string email, accName;
+        for(i=0;i<n;i++)
+            parent[i]=i;
+        unordered_map<string,int> emailGroup;
+        for(i=0;i<n;i++)
+        {
+            m=accounts[i].size();
+            accName = accounts[i][0];
+            for(j=1;j<m;j++)
+            {
+                email = accounts[i][j];
+                if(emailGroup.find(email)==emailGroup.end())
+                    emailGroup[email]=i;
+                else
+                    unionEmail(i,emailGroup[email],parent);
+            }
+        }
+        
+        unordered_map<int,set<string>> finalMap;
+        for (auto it: emailGroup)
+        {
+            email = it.first;
+            m = findParent(parent,it.second);
+            finalMap[m].insert(email);
+        }
+        for(auto it:finalMap)
+        {
+            vector<string> temp(it.second.begin(),it.second.end());
+                        
+            temp.insert(temp.begin(),accounts[it.first][0]);
+            res.push_back(temp);
+        }
+        return res;
+    }
+};
