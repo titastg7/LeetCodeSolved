@@ -1,0 +1,25 @@
+367. Valid Perfect Square
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool isPerfectSquare(int num) 
+    {
+        long long low=2, high=num/2,mid,mul;
+        while(low<=high)
+        {
+            mid = low+(high-low)/2;
+            mul =mid*mid;
+            if(mul==num)
+                return 1;
+            if(mul<num)
+                low = mid+1;
+            else
+                high = mid-1;
+        }
+        return 0;
+    }
+};
