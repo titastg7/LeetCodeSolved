@@ -1,0 +1,29 @@
+483. Smallest Good Base
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef long long ll;
+    string smallestGoodBase(string n) 
+    {
+        string res;
+        ll i,num = stol(n);
+        for(i=63;i>2;i--)
+        {
+            ll base = pow(num,  1.0/(i-1));
+            if(base==1)
+                continue;
+            ll sum=1, k=1,j;
+            for(j=1;j<i;j++)
+            {
+                k *=base;
+                sum +=k;
+            }
+            if(sum==num)
+                return to_string(base);
+        }
+        return to_string(num-1);
+    }
+};
