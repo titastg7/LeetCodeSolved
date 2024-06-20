@@ -1,0 +1,74 @@
+1129. Shortest Path with Alternating Colors
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef pair<int,int> ii;
+    vector<int> shortestAlternatingPaths(int n, vector<vector<int>>& redEdges, vector<vector<int>>& blueEdges) 
+    {
+        vector<vector<int>> red(n), blue(n);
+        int i, p=redEdges.size(), q= blueEdges.size(),count=0,size=0;
+        
+        for(i=0;i<p;i++)
+            red[redEdges[i][0]].push_back(redEdges[i][1]);
+        
+        for(i=0;i<q;i++)
+            blue[blueEdges[i][0]].push_back(blueEdges[i][1]);
+        
+        vector<int> res(n,INT_MAX);
+        vector<bool> redVis(n,0), blueVis(n,0);
+        
+        queue<ii> counter;
+        
+        counter.push({0,1});
+        counter.push({0,2});
+        
+        // 1 ->red, 2->blue
+        while(!counter.empty())
+        {
+            size = counter.size();
+            while(size--)
+            {
+                auto top = counter.front();
+                counter.pop();
+                
+                int node = top.first;
+                int prevColor = top.second;
+                res[node] = min(res[node],count);
+                
+                if(prevColor==1)
+                {
+                    for(i=0;i<blue[node].size();i++)
+                    {
+                        if(!blueVis[blue[node][i]])
+                        {
+                            blueVis[blue[node][i]]=1;
+                            counter.push({blue[node][i],2});
+                        }
+                    }
+                }
+                else
+                {
+                    for(i=0;i<red[node].size();i++)
+                    {
+                        if(!redVis[red[node][i]])
+                        {
+                            redVis[red[node][i]]=1;
+                            counter.push({red[node][i],1});
+                        }
+                    }
+                }
+            }
+            count++;
+        }
+        for(i=0;i<n;i++)
+        {
+            if(res[i]==INT_MAX)
+                res[i]=-1;
+        }
+        return res;
+    }
+};
