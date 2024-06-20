@@ -1,0 +1,29 @@
+1351. Count Negative Numbers in a Sorted Matrix
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int countNegatives(vector<vector<int>>& grid) 
+    {
+        int i,j,m=grid.size(),n=grid[0].size(),res=0,low=0,high,mid;
+        for(i=0;i<m;i++)
+        {
+            low = 0;
+            high = n-1;
+            sort(grid[i].begin(),grid[i].end());
+            while(low<=high)
+            {
+                mid = low +(high-low)/2;
+                if(grid[i][mid]<0)
+                    low = mid+1;
+                else
+                    high = mid-1;
+            }
+            res += low;
+        }
+        return res;
+    }
+};
