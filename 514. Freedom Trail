@@ -1,0 +1,40 @@
+514. Freedom Trail
+
+
+C++ Code
+----------------------------------
+class Solution {
+public:
+    typedef unordered_map<int,int> ii;
+    int find(int ringInd, int keyInd, string ring, string key, int minSteps, unordered_map<int,ii>*memo)
+    {
+        if((*memo)[ringInd][keyInd])
+            return (*memo)[ringInd][keyInd];
+        if(keyInd==key.length())
+            return 0;
+        
+        int i,n=ring.length(),totalSteps;
+        for(i=0;i<n;i++)
+        {
+            if(ring[i]==key[keyInd])
+            {
+                totalSteps= countSteps(ringInd,i,n)+1 + find(i,keyInd+1,ring,key,INT_MAX,memo);
+                minSteps = min(minSteps, totalSteps);
+                (*memo)[ringInd][keyInd] = minSteps;
+            }
+        }
+        return minSteps;
+    }
+    
+    int countSteps(int curr, int next,int ringLen)
+    {
+        int betweenSteps = abs(curr-next);
+        int stepsAround = ringLen-betweenSteps;
+        return min(betweenSteps,stepsAround);
+    }
+    int findRotateSteps(string ring, string key) 
+    {
+        unordered_map<int,ii> memo;
+        return find(0,0,ring,key,INT_MAX,&memo);
+    }
+};
