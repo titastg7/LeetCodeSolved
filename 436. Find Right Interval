@@ -1,0 +1,28 @@
+436. Find Right Interval
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    vector<int> findRightInterval(vector<vector<int>>& intervals) 
+    {
+        int i,n=intervals.size();
+        vector<int> res(n,-1);
+        map<int,int> counter;
+        for(i=0;i<n;i++)
+            counter[intervals[i][0]] = i;
+
+        
+        for(i=0;i<n;i++)
+        {
+            auto p = counter.lower_bound(intervals[i][1]);
+            int val=-1;
+            if(p!=counter.end())
+                val=p->second;
+            res[i]=val;
+        }
+        return res;
+    }
+};
