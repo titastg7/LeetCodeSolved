@@ -1,0 +1,58 @@
+1615. Maximal Network Rank
+
+
+C++ Code
+----------------------------------
+class Solution {
+public:
+    int maximalNetworkRank(int n, vector<vector<int>>& roads) 
+    {
+        int i, e=roads.size(),j;
+        vector<unordered_set<int>> adjList(n);
+        vector<int> indeg(n,0);
+        
+        for(i=0;i<e;i++)
+        {
+            adjList[roads[i][0]].insert(roads[i][1]);
+            adjList[roads[i][1]].insert(roads[i][0]);
+            indeg[roads[i][0]]++;
+            indeg[roads[i][1]]++;
+        }
+
+        int maxDegree=0;
+        for(i=0;i<n;i++)
+            maxDegree = max(maxDegree,indeg[i]);
+        
+        vector<int> sameDegreeInd;
+        for(i=0;i<n;i++)
+        {
+            if(indeg[i]==maxDegree)
+                sameDegreeInd.push_back(i);
+        }
+
+        if(sameDegreeInd.size()>1)
+        {
+            for(i=1;i<sameDegreeInd.size();i++)
+            {
+                for(j=0;j<i;j++)
+                {
+                    if(adjList[sameDegreeInd[i]].find(sameDegreeInd[j])==adjList[sameDegreeInd[i]].end())
+                        return 2*maxDegree;
+                }
+            }
+            return 2*maxDegree-1;
+        }
+
+        int maxInd = sameDegreeInd[0];
+        int res=0,rank;
+
+        for(j=0;j<n;j++)
+        {
+            if(j==maxInd)
+                continue;
+            rank = maxDegree+indeg[j]-adjList[maxInd].count(j);
+            res= max(res,rank);
+        }
+        return res;
+    }
+};
