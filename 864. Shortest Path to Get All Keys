@@ -1,0 +1,93 @@
+864. Shortest Path to Get All Keys
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef pair<int,pair<int,int>> ii;
+    vector<int> cr = {0,0,1,-1};
+    vector<int> cc = {1,-1,0,0};
+    bool check(int x, int y, int m, int n)
+    {
+        if(x<0||y<0||x>=m||y>=n)
+            return 0;
+        return 1;
+    }
+    bool iskey(char ch)
+    {
+        return (ch>= 'a' && ch <= 'f');
+    }
+    bool isLock(char ch)
+    {
+        return (ch>= 'A' && ch <= 'F');
+    }
+    
+    int findPath(vector<string>&grid,int m,int n,int keyCount, int startI,int startJ)
+    {
+        int sz=0,res=0, x,y,k,i,j,keyBit, newkeyBit;
+        queue<ii> level;
+        vector<vector<vector<bool>>> visited(m,vector<vector<bool>>(n,vector<bool>(64,0)));
+        visited[startI][startJ][0]=0;
+        level.push({0,{startI,startJ}});
+        
+        while(!level.empty())
+        {
+            sz=level.size();
+            while(sz--)
+            {
+                ii top = level.front();
+                level.pop();
+                keyBit = top.first;
+                i = top.second.first;
+                j = top.second.second;
+                
+                if(keyBit==((1<<keyCount)-1))
+                    return res;
+                
+                for(k=0;k<4;k++)
+                {
+                    x = i+cr[k];
+                    y = j+cc[k];
+                    newkeyBit= keyBit;
+                    if(!check(x,y,m,n) || visited[x][y][newkeyBit] || grid[x][y]=='#')
+                        continue;
+                    if(iskey(grid[x][y]))
+                    {
+                        newkeyBit=keyBit|(1<<(grid[x][y]-'a'));
+                    }
+                    if(isLock(grid[x][y]) && (keyBit & (1<<(grid[x][y]-'A')))==0)
+                    {
+                        continue;
+                    }
+                    visited[x][y][newkeyBit]=1;
+                    level.push({newkeyBit,{x,y}});
+                }
+            }
+            res++;
+        }
+        return -1;
+    }
+    int shortestPathAllKeys(vector<string>& grid) 
+    {
+        int i,j,k,m=grid.size(),n=grid[0].size(),keyCount=0,x,y;
+        for(i=0;i<m;i++)
+        {
+            for(j=0;j<n;j++)
+            {
+                if(iskey(grid[i][j]))
+                {
+                    keyCount++;
+                }
+                if(grid[i][j]=='@')
+                {
+                    x=i; y=j;
+                }
+            }
+        }
+        
+        return findPath(grid,m,n,keyCount, x,y);
+        
+    }
+};
