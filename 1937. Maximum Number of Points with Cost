@@ -1,0 +1,34 @@
+1937. Maximum Number of Points with Cost
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef long long ll;
+
+    
+    long long maxPoints(vector<vector<int>>& points) 
+    {
+        ll m=points.size(), n=points[0].size(),i,j;
+        vector<ll> memo(n,0);
+        if(m==1)
+            return *max_element(points[0].begin(),points[0].end());
+
+        
+        for(i=0;i<m;i++)
+        {
+            for(j=0;j<n;j++)
+            {
+                memo[j] += points[i][j];
+                if(j>0)
+                    memo[j] = max(memo[j], memo[j-1]-1);
+            }
+            for(j=n-2;j>=0;j--)
+                memo[j] = max(memo[j], memo[j+1]-1);
+        }
+        return *max_element(memo.begin(),memo.end());
+        
+    }
+};
