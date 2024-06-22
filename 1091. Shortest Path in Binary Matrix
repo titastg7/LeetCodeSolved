@@ -1,0 +1,54 @@
+1091. Shortest Path in Binary Matrix
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef pair<int,int> ii;
+    vector<int> cr={-1,-1,-1,0,0,1,1,1};
+    vector<int> cc={-1,0,1,-1,1,-1,0,1};
+    bool check(int x, int y, int n)
+    {
+        if(x<0||y<0||x>=n||y>=n)
+            return 0;
+        return 1;
+    }
+    int shortestPathBinaryMatrix(vector<vector<int>>& grid) 
+    {
+        int n=grid.size(),res=1,i,j,k,x,y,sz=0;
+        if(grid[0][0]!=0 | grid[n-1][n-1]!=0)
+            return -1;
+        if(n-1==0 && grid[0][0]==0)
+            return 1;
+            
+        queue<ii> level;
+        level.push({0,0});
+        vector<vector<bool>> visited(n,vector<bool>(n,0));
+        visited[0][0]=1;
+        while(!level.empty())
+        {
+            sz=level.size();
+            while(sz--)
+            {
+                ii top = level.front();
+                level.pop();
+                for(k=0;k<8;k++)
+                {
+                    x = cr[k]+top.first;
+                    y = cc[k]+top.second;
+                    if(check(x,y,n) && !visited[x][y] && grid[x][y]==0)
+                    {
+                        if(x==n-1 && y==n-1)
+                            return res+1;
+                        level.push({x,y});
+                        visited[x][y]=1;
+                    }
+                }
+            }
+            res++;
+        }
+        return -1;
+    }
+};
