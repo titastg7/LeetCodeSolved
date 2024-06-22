@@ -1,0 +1,75 @@
+2096. Step-By-Step Directions From a Binary Tree Node to Another
+
+
+C++ Code
+----------------------------------
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* findLCA(TreeNode* root, int start, int end)
+    {
+        if(root==NULL)
+            return NULL;
+        if(root->val==start || root->val==end)
+            return root;
+        TreeNode* leftS = findLCA(root->left,start,end);
+        TreeNode* rightS = findLCA(root->right,start,end);
+        if(leftS==NULL)
+            return rightS;
+        if(rightS==NULL)
+            return leftS;
+        return root;
+    }
+   
+    bool getDir(TreeNode* root, int data, string &res)
+    {
+        if(root==NULL)
+            return false;
+        if(root->val == data)
+        {
+            return 1;
+        }
+        
+        res +='L';
+        if(getDir(root->left,data,res))
+            return 1;
+        
+        res.pop_back();
+        res +='R';
+        
+        if(getDir(root->right,data,res))
+            return 1;
+        
+        res.pop_back();
+        return 0;
+        
+    }
+    string getDirections(TreeNode* root, int startValue, int destValue) 
+    {
+        TreeNode* lca = findLCA(root, startValue, destValue);
+
+        string startDir, endDir;
+        int i;
+        
+        getDir(lca,startValue,startDir);
+        getDir(lca,destValue,endDir);
+        string res;
+        
+        for(i=0;i<startDir.length();i++)
+            res += 'U';
+
+            res +=endDir;
+        return res;
+    }
+};
