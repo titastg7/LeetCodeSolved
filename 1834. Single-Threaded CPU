@@ -1,0 +1,52 @@
+1834. Single-Threaded CPU
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef long long ll;
+    typedef pair<ll,ll> ii;
+    vector<int> getOrder(vector<vector<int>>& tasks) 
+    {
+        vector<int> res;
+        ll i, n=tasks.size(),curTime;
+        for(i=0;i<n;i++)
+            tasks[i].push_back(i);
+        sort(tasks.begin(),tasks.end());
+            
+        i=0;
+        
+        priority_queue<ii, vector<ii>, greater<ii>> counter;
+        
+        counter.push({tasks[0][1],tasks[0][2]});
+        curTime = tasks[0][0];
+        i++;
+        
+        while(res.size()<n)
+        {
+            while(!counter.empty())
+            {
+                ii top = counter.top();
+                counter.pop();
+
+                res.push_back(top.second);
+                curTime +=top.first;
+                while(i<n && tasks[i][0]<=curTime)
+                {
+                    counter.push({tasks[i][1],tasks[i][2]});
+                    i++;
+                }
+            }
+            
+            if(counter.empty() && i<n)
+            {
+                counter.push({tasks[i][1],tasks[i][2]});
+                curTime = tasks[i][0] + tasks[i][1];
+                i++;
+            }
+        }
+        return res;
+    }
+};
