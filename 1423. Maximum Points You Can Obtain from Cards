@@ -1,0 +1,26 @@
+1423. Maximum Points You Can Obtain from Cards
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef long long ll;
+
+    int maxScore(vector<int>& cardPoints, int k) 
+    {
+        ll n=cardPoints.size(),sumPts=0,i, res=0;
+        
+        for(i=0;i<k;i++)
+            sumPts +=cardPoints[i];
+        res=sumPts;
+        for(i=0;i<k;i++)
+        {
+            sumPts -=cardPoints[k-i-1];
+            sumPts +=cardPoints[n-i-1];
+            res = max(res,sumPts);
+        }
+        return res;
+    }
+};
