@@ -1,0 +1,44 @@
+1048. Longest String Chain
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool isPredecessor(string first, string second)
+    {
+        int i=0,n=min(first.length(),second.length());
+        while(i<n && first[i]==second[i])
+            i++;
+
+        second.erase(i,1);
+        return first==second;
+        
+    }
+    int longestStrChain(vector<string>& words) 
+    {
+        int i,j,n=words.size();    
+        if(n==1)
+            return 1;
+        sort(words.begin(),words.end(),
+            [](const string &a, const string &b)
+             {
+                 return a.length()>b.length();
+             });
+        
+        vector<int> memo(n,1);
+        for(i=1;i<n;i++)
+        {
+            for(j=0;j<i;j++)
+            {
+                if(words[i]!= words[j] && isPredecessor(words[i],words[j]))
+                {
+                    memo[i] = max(memo[i], memo[j]+1);
+                }
+            }
+        }
+
+        return *max_element(memo.begin(),memo.end());
+    }
+};
