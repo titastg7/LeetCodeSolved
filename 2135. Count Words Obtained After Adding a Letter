@@ -1,0 +1,38 @@
+2135. Count Words Obtained After Adding a Letter
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int wordCount(vector<string>& startWords, vector<string>& targetWords) 
+    {
+        int i,n=startWords.size(),res=0,j;
+        unordered_set<string> dict;
+        
+        string temp;
+        for(i=0;i<n;i++)
+        {
+            sort(startWords[i].begin(),startWords[i].end());
+            dict.insert(startWords[i]);
+        }
+        
+        for(auto &str:targetWords)
+        {
+            temp="";
+            sort(str.begin(),str.end());
+            n=str.length();
+            for(j=0;j<n;j++)
+            {
+                temp = str.substr(0,j)+ str.substr(j+1,n-j-1);
+                if(dict.find(temp)!=dict.end())
+                {
+                    res++;
+                    break;
+                }
+            }
+        }
+        return res;
+    }
+};
