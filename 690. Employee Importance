@@ -1,0 +1,36 @@
+690. Employee Importance
+
+
+C++ Code
+----------------------------------
+
+/*
+// Definition for Employee.
+class Employee {
+public:
+    int id;
+    int importance;
+    vector<int> subordinates;
+};
+*/
+
+class Solution {
+public:
+    typedef long long ll;
+    ll calculateImp(int empId, unordered_map<int,Employee*> &emps)
+    {
+        ll res=emps[empId]->importance;
+        for(auto e: emps[empId]->subordinates)
+        {
+            res += calculateImp(e, emps);
+        }
+        return res;
+    }
+    int getImportance(vector<Employee*> employees, int id) 
+    {
+        unordered_map<int,Employee*> empTracker;
+        for(auto e: employees)
+            empTracker[e->id]= e;
+        return calculateImp(id,empTracker);
+    }
+};
