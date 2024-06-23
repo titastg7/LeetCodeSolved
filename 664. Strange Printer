@@ -1,0 +1,31 @@
+664. Strange Printer
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int find(string s, int i, int j, vector<vector<int>>*memo)
+    {
+        if(i>j)
+            return 0;
+        if((*memo)[i][j]!=-1)
+            return (*memo)[i][j];
+        int k,res;
+        res = 1+find(s,i+1,j,memo);
+        for(k=i+1;k<=j;k++)
+        {
+            if(s[i]==s[k])
+                res = min(res, find(s,i+1,k,memo)+ find(s,k+1,j,memo));
+        }
+        (*memo)[i][j] = res;
+        return (*memo)[i][j];
+    }
+    int strangePrinter(string s) 
+    {
+        int n=s.length();
+        vector<vector<int>> memo(n,vector<int>(n,-1));
+        return find(s,0,n-1,&memo);
+    }
+};
