@@ -1,0 +1,33 @@
+777. Swap Adjacent in LR String
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool canTransform(string start, string end) 
+    {
+        int i=0,j=0,m=start.length(),n=end.length();
+        while(i<m && j<n)
+        {
+            while(i<m && start[i]=='X')
+                i++;
+            while(j<n && end[j]=='X')
+                j++;
+            if(start[i]!=end[j])
+                return 0;
+            if(start[i]=='R' && i>j)
+                return 0;
+            if(start[i]=='L' && i<j)
+                return 0;
+            i++;
+            j++;
+        }
+        while(i<m && start[i]=='X')
+            i++;
+        while(j<n && end[j]=='X')
+            j++;
+        return i==j;
+    }
+};
