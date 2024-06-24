@@ -1,0 +1,32 @@
+447. Number of Boomerangs
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    long long getDist(vector<int> p, vector<int> q)
+    {
+        return ((q[1]-p[1])*(q[1]-p[1]))+((q[0]-p[0])*(q[0]-p[0]));
+    }
+    int numberOfBoomerangs(vector<vector<int>>& points) 
+    {
+        long long res=0,i,j,k,n=points.size(),curDist;
+        for(i=0;i<n;i++)
+        {
+            unordered_map<long long,long long> dist;
+            for(j=0;j<n;j++)
+            {
+               if(i!=j)
+               {
+                   curDist = getDist(points[i],points[j]);
+                   dist[curDist]++;
+               }
+            }
+            for(auto it: dist)
+                res += it.second* ((it.second)-1);
+        }
+        return res;
+    }
+};
