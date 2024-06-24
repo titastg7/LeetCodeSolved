@@ -1,0 +1,28 @@
+853. Car Fleet
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    typedef pair<int,int> ii;
+    int carFleet(int target, vector<int>& position, vector<int>& speed) 
+    {
+        int n=position.size(),i;
+        vector<ii>cars(n);
+        for(i=0;i<n;i++)
+            cars[i] = {position[i], speed[i]};
+        sort(cars.begin(),cars.end());
+        stack<double> counter;
+        double time;
+        for(i=0;i<n;i++)
+        {
+            time = ((double)(target-cars[i].first))/(double)cars[i].second;
+            while(!counter.empty() && counter.top()<=time)
+                counter.pop();
+            counter.push({time});
+        }
+        return counter.size();
+    }
+};
