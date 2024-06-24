@@ -1,0 +1,46 @@
+384. Shuffle an Array
+
+
+C++ Code
+----------------------------------
+
+
+
+
+class Solution {
+public:
+    vector<int> original;
+    int n;
+    Solution(vector<int>& nums) 
+    {
+        original=nums;
+        n=nums.size();
+        srand(time(0));
+    }
+    
+    vector<int> reset() 
+    {
+        return original;
+    }
+    
+    vector<int> shuffle() 
+    {
+        int randIndOne = rand()%n;
+        int left=n,i,j;
+        vector<int> res=original;
+        for(i=n-1;i>=0;i--)
+        {
+            j = rand()%left;;
+            swap(res[i],res[j]);
+            left--;
+        }
+        return res;
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(nums);
+ * vector<int> param_1 = obj->reset();
+ * vector<int> param_2 = obj->shuffle();
+ */
