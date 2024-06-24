@@ -1,0 +1,40 @@
+410. Split Array Largest Sum
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    int splitArray(vector<int>& nums, int k) 
+    {
+        int low=0, high=0, n=nums.size(),mid,i,res=0;
+        for(i=0;i<n;i++)
+        {
+            low = max(low,nums[i]);
+            high +=nums[i];
+        }
+        
+        while(low<=high)
+        {
+            mid = low+(high-low)/2;
+            int split=1,sum=0;
+            for(i=0;i<n;i++)
+            {
+                sum +=nums[i];
+                if(sum>mid)
+                {
+                    split++;
+                    sum=nums[i];
+                }
+            }
+            if(split<=k)
+            {
+                high=mid-1;
+            }
+            else
+                low=mid+1;
+        }
+        return low;
+    }
+};
