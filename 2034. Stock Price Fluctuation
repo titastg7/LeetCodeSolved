@@ -1,0 +1,59 @@
+2034. Stock Price Fluctuation
+
+C++ Code
+----------------------------------
+
+class StockPrice {
+public:
+    typedef pair<int,int> ii;
+    
+    int latestTimestamp;
+    unordered_map<int,int> stocks;
+    priority_queue<ii> maxPrice;
+    priority_queue<ii, vector<ii>, greater<ii> > minPrice;
+    StockPrice() 
+    {
+        stocks.clear();
+        latestTimestamp=0;
+    }
+    
+    void update(int timestamp, int price) 
+    {
+        stocks[timestamp]=price;
+        maxPrice.push({price,timestamp});
+        minPrice.push({price,timestamp});
+        
+        while(!maxPrice.empty() && stocks[maxPrice.top().second]!=maxPrice.top().first)
+            maxPrice.pop();
+        
+        
+         while(!minPrice.empty() && stocks[minPrice.top().second]!=minPrice.top().first)
+            minPrice.pop();
+        
+        latestTimestamp = max(latestTimestamp,timestamp);
+    }
+    
+    int current() 
+    {
+        return stocks[latestTimestamp];
+    }
+    
+    int maximum() 
+    {
+        return maxPrice.top().first;    
+    }
+    
+    int minimum() 
+    {
+        return minPrice.top().first;    
+    }
+};
+
+/**
+ * Your StockPrice object will be instantiated and called as such:
+ * StockPrice* obj = new StockPrice();
+ * obj->update(timestamp,price);
+ * int param_2 = obj->current();
+ * int param_3 = obj->maximum();
+ * int param_4 = obj->minimum();
+ */
