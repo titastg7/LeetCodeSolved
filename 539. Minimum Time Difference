@@ -1,0 +1,35 @@
+539. Minimum Time Difference
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    
+    int timeToMinutes(string& time) 
+    {
+        int hours = stoi(time.substr(0, 2));
+        int minutes = stoi(time.substr(3, 2));
+        return hours * 60 + minutes;
+    }
+    
+    int findMinDifference(vector<string>& timePoints) 
+    {
+        int n=timePoints.size(),i,minDiff=3601;
+        vector<int> timeInMin(n);
+        for(i = 0; i<n;i++)
+        {
+            timeInMin[i] = timeToMinutes(timePoints[i]);
+        }
+        sort(timeInMin.begin(),timeInMin.end());
+        
+        for(i=0;i<n-1;i++)
+        {
+            minDiff = min(minDiff, timeInMin[i+1]-timeInMin[i]);
+        }
+
+        minDiff = min(minDiff, (1440-timeInMin[n-1]+timeInMin[0]));
+        return minDiff;
+    }
+};
