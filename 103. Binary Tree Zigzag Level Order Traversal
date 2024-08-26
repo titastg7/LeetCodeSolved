@@ -1,0 +1,51 @@
+103. Binary Tree Zigzag Level Order Traversal
+
+
+C++ Code
+----------------------------------
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) 
+    {
+        vector<int> levelNodes;
+        vector<vector<int>> res;
+        if(root==NULL)
+            return res;
+        queue<TreeNode*> levels;
+        int levelSize=0, counter=0;
+        levels.push(root);
+        while(!levels.empty())
+        {
+            levelSize=levels.size();
+            levelNodes.clear();
+            while(levelSize--)
+            {
+                auto node = levels.front();
+                levels.pop();
+                levelNodes.push_back(node->val);
+                if(node->left)
+                    levels.push(node->left);
+                if(node->right)
+                    levels.push(node->right);
+            }
+            counter = (counter+1)%2;
+            if(!counter)
+                reverse(levelNodes.begin(),levelNodes.end());
+            res.push_back(levelNodes);
+            
+        }
+        return res;
+    }
+};
