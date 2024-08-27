@@ -1,0 +1,27 @@
+372. Super Pow
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    const int base = 1337;
+    
+    int calculate(int a, int k)
+    {
+        a %=base;
+        int i,res=1;
+        for(i=0;i<k;i++)
+            res = (res*a) % base;
+        return res;
+    }
+    int superPow(int a, vector<int>& b) 
+    {
+        if(b.empty())
+            return 1;
+        int digit = b.back();
+        b.pop_back();
+        return calculate(superPow(a,b),10)* calculate(a,digit) % base;
+    }
+};
