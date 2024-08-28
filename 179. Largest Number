@@ -1,0 +1,27 @@
+179. Largest Number
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    string largestNumber(vector<int>& nums) 
+    {
+        int n=nums.size(),i;
+        vector<string> a(n);
+        for(i=0;i<n;i++)
+            a[i] = to_string(nums[i]);
+        sort(a.begin(),a.end(),
+        [](const string &x, const string &y)
+        {
+          return (x+y)>(y+x);
+        });
+        string res;
+        for(i=0;i<n;i++)
+            res += a[i];
+        if(res[0]=='0')
+                return "0";
+        return res;    
+    }
+};
