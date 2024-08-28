@@ -1,0 +1,26 @@
+1. Two Sum
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> res(2);
+        int n=nums.size(),i;
+        unordered_map<int,int> counter;
+        for(i=0;i<n;i++)
+        {
+            int diff = target-nums[i];
+            if(counter.find(diff)!=counter.end())
+            {
+                res[0]=counter[diff];
+                res[1]=i;
+                return res;
+            }
+            counter[nums[i]]=i;
+        }
+        return res;
+    }
+};
