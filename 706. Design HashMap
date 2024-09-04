@@ -1,0 +1,64 @@
+706. Design HashMap
+
+
+C++ Code
+----------------------------------
+class MyHashMap {
+public:
+    typedef pair<int,int> ii;
+    vector<ii> hashmap;
+    MyHashMap() 
+    {
+        hashmap.clear();
+    }
+    
+    void put(int key, int value) 
+    {
+        int i, n=hashmap.size();
+        for(i=0;i<n;i++)
+        {
+            if(hashmap[i].first==key)
+            {
+                hashmap[i].second=value;
+                return;
+            }
+        }
+        if(i==n)
+            hashmap.push_back({key,value});
+        return;
+    }
+    
+    int get(int key) 
+    {
+        int i, n=hashmap.size();
+        for(i=0;i<n;i++)
+        {
+            if(hashmap[i].first==key)
+            {
+                return hashmap[i].second;
+            }
+        }
+        return -1;
+    }
+    
+    void remove(int key) 
+    {
+       for (auto it = hashmap.begin(); it != hashmap.end();++it)
+       {
+           if(it->first==key)
+           {
+               hashmap.erase(it);
+               break;
+           }
+       }
+        return;
+    }
+};
+
+/**
+ * Your MyHashMap object will be instantiated and called as such:
+ * MyHashMap* obj = new MyHashMap();
+ * obj->put(key,value);
+ * int param_2 = obj->get(key);
+ * obj->remove(key);
+ */
