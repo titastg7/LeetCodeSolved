@@ -1,0 +1,59 @@
+705. Design HashSet
+
+
+C++ Code
+----------------------------------
+class MyHashSet {
+public:
+    vector<int> hashset;
+    MyHashSet() {
+        hashset.clear();
+    }
+    
+    void add(int key) 
+    {
+        int i, n=hashset.size();
+        for(i=0;i<n;i++)
+        {
+            if(hashset[i]==key)
+                return;
+        }
+        hashset.push_back(key);
+        return;
+    }
+    
+    void remove(int key) 
+    {
+        for (auto it = hashset.begin(); it != hashset.end();++it)
+        {
+           if(*it==key)
+           {
+               hashset.erase(it);
+               break;
+           }
+        }
+        return; 
+    }
+    
+    bool contains(int key) 
+    {
+        int i, n=hashset.size();
+
+        for(i=0;i<n;i++)
+        {
+            if(hashset[i]==key)
+            {
+                return true;
+            }
+        }
+        return false;    
+    }
+};
+
+/**
+ * Your MyHashSet object will be instantiated and called as such:
+ * MyHashSet* obj = new MyHashSet();
+ * obj->add(key);
+ * obj->remove(key);
+ * bool param_3 = obj->contains(key);
+ */
