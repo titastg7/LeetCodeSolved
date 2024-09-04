@@ -1,0 +1,28 @@
+3248. Snake in Matrix
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    vector<int> cr = {0,};
+    vector<int> cc = {1,};
+     
+    int finalPositionOfSnake(int n, vector<string>& commands) 
+    {
+        int steps=0,i,m=commands.size();
+        for(i=0;i<m;i++)
+        {
+            if(commands[i]=="RIGHT")
+                steps++;
+            if(commands[i]=="LEFT")
+                steps--;
+            if(commands[i]=="DOWN")
+                steps +=n;
+            if(commands[i]=="UP")
+                steps -=n;
+        }
+        return steps;
+    }
+};
