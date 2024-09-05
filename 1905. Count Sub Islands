@@ -1,0 +1,58 @@
+1905. Count Sub Islands
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    vector<int> cr={0,0,1,-1};
+    vector<int> cc = {1,-1,0,0};
+    bool check(int x, int y, int m, int n)
+    {
+        if(x<0||y<0||x>=m||y>=n)
+            return false;
+        return true;
+    }
+    bool dfs(vector<vector<int>>& grid1, vector<vector<int>>& grid2, int i, int j, vector<vector<bool>> *visited)
+    {
+        bool isSubIsland=true;
+        if(grid1[i][j]!=1)
+            isSubIsland = false;
+
+        int k, m=grid2.size(),n=grid2[0].size(),x,y;
+        for(k=0;k<4;k++)
+        {
+            x = i+cr[k];
+            y = j+cc[k];
+            if(check(x,y,m,n) && grid2[x][y]==1 && !(*visited)[x][y])
+            {
+                (*visited)[x][y]=1;
+                bool res = dfs(grid1,grid2,x,y,visited);
+                isSubIsland = res && isSubIsland;
+            }
+        }
+        return isSubIsland;
+    }
+    int countSubIslands(vector<vector<int>>& grid1, vector<vector<int>>& grid2) 
+    {
+        int m=grid1.size(),n=grid1[0].size(),res=0,i,j; 
+        vector<vector<bool>> visited(m,vector<bool>(n,0));
+        
+        for(i=0;i<m;i++)
+        {
+            for(j=0;j<n;j++)
+            {
+                if(grid2[i][j]==1 && !visited[i][j])
+                {
+                    visited[i][j]=1;
+                    if(dfs(grid1,grid2,i,j,&visited))
+                    {
+                        res++;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+};
