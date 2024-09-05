@@ -1,0 +1,36 @@
+347. Top K Frequent Elements
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    //Time=O(n), Bucket Sort
+    //Space=O(n)
+    vector<int> topKFrequent(vector<int>& nums, int k) 
+    {
+        unordered_map<int,int> count;
+
+        int i, n=nums.size(),j;
+        for(i=0;i<n;i++)
+            count[nums[i]]++;
+        vector<int> res; 
+        vector<vector<int>> bucket(n);
+        for(auto it=count.begin();it!=count.end();it++)
+            bucket[it->second-1].push_back(it->first);
+        
+        i=n-1;
+        while(i>=0 && k>0)
+        {
+            j=bucket[i].size()-1;
+            while(j>=0 && k>0)
+            {
+                res.push_back(bucket[i][j]);
+                k--;
+                j--;
+            }
+            i--;
+        }
+        return res;
+    }
+};
