@@ -1,0 +1,39 @@
+207. Course Schedule
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        int n=prerequisites.size(),i,top,count=0;
+        vector<int> indeg(numCourses,0);
+        vector<vector<int>> adjList(numCourses);
+        for(i=0;i<n;i++)
+        {
+            indeg[prerequisites[i][1]]++;
+            adjList[prerequisites[i][0]].push_back(prerequisites[i][1]);
+        }
+        
+        queue<int> zeroes;
+        for(i=0;i<numCourses;i++)
+        {
+            if(indeg[i]==0)
+                zeroes.push(i);
+        }
+        while(!zeroes.empty())
+        {
+            top = zeroes.front();
+            zeroes.pop();
+            count++;
+            for(i=0;i<adjList[top].size();i++)
+            {
+                indeg[adjList[top][i]]--;
+                if(indeg[adjList[top][i]]==0)
+                    zeroes.push(adjList[top][i]);
+            }
+        }
+        return zeroes.empty() && count==numCourses;
+    }
+};
